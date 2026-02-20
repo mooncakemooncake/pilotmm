@@ -1,41 +1,36 @@
 import type { PhotographerInfo } from '@/types';
 
 export const photographerInfo: PhotographerInfo = {
-  name: 'Sarah Mitchell',
-  tagline: 'Editorial & Commercial Photographer',
-  heroIntroduction: 'Creating visual narratives that capture authentic moments and timeless stories.',
-  biography: `Sarah Mitchell is an award-winning photographer specializing in editorial and commercial work, with recognition including the International Photography Awards Editorial Photographer of the Year 2023 and PDN Photo Annual Winner 2022. With over a decade of experience, her work has been featured in numerous international publications and exhibitions, collaborating with clients such as Vogue, The New York Times, National Geographic, Adobe, Apple, Nike, and Architectural Digest.
+  name: 'PilotMultimedia',
+  tagline: 'Empowering Financial Stability through Advanced Risk Management Solutions',
+  heroIntroduction: 'Pilot Multimedia Pte Ltd (PILOT), a leader in risk management and financial tech, is dedicated to today\'s risk and tomorrow\'s innovations. With MSC status, Pilot has developed and delivered solutions that keep you ahead in a dynamic market.',
+  biography: `Pilot Multimedia Pte Ltd (PILOT) is a leader in risk management and financial technology, dedicated to addressing today's risk challenges and tomorrow's innovations. With MSC status, Pilot has developed and delivered cutting-edge solutions that keep clients ahead in a dynamic market.
 
-Based in New York with an MFA in Photography from the School of Visual Arts, Sarah brings a unique perspective to every project, combining technical excellence with artistic vision. Her approach to photography is deeply rooted in storytelling, believing that every image should convey emotion and meaning beyond its visual appeal.`,
-  approach: `My photography is guided by three principles: authenticity, composition, and light. I believe the best images emerge when subjects feel comfortable and genuine, when composition guides the viewer's eye naturally, and when light reveals the essence of the moment.
+Financial institutions and companies that provide credit, both in financial and non-financial sectors, face the challenge of assessing and managing credit risk. PILOT's solutions address these challenges with precision and reliability.`,
+  approach: `Credit Risk Assessment requires accuracy and reliability. Financial institutions face issues with keeping track of data, ratings (scorecards), and financials of their clients. Creating new scoring modules or making modifications to current modules presents another set of challenges unto itself.
 
-Whether working on editorial assignments or commercial projects, I strive to create images that transcend their immediate purpose and become lasting visual statements.`,
+A Credit Risk Management Solution that allows high customization and flexibility and is equipped with a Database Management System to ensure reliability and accuracy of data. Credit Predix, Pilot's homegrown proprietary software, encompasses all those features and more.`,
   awards: [
-    'International Photography Awards - Editorial Photographer of the Year 2023',
-    'PDN Photo Annual - Winner 2022',
-    'Hasselblad Masters Finalist 2021',
-    'Communication Arts Photography Annual 2020'
+    'MSC Status Company',
+    'Credit Risk Management Excellence',
+    'Financial Technology Innovation',
+    'Database Management System Leadership'
   ],
   clients: [
-    'Vogue',
-    'The New York Times',
-    'National Geographic',
-    'Adobe',
-    'Apple',
-    'Nike',
-    'Patagonia',
-    'Architectural Digest'
+    'Financial Institutions',
+    'Credit Providers',
+    'Banking Sector',
+    'Non-Financial Credit Sector'
   ],
-  education: 'MFA Photography, School of Visual Arts, New York',
-  location: 'New York, NY',
-  email: 'hello@sarahmitchell.com',
-  phone: '+1 (555) 123-4567',
-  availability: 'Currently booking for Q2 2025',
+  education: '',
+  location: 'Malaysia',
+  email: 'info@pilotmultimedia.com',
+  phone: '',
+  availability: '',
   socialLinks: {
-    instagram: 'https://instagram.com/sarahmitchellphoto',
-    linkedin: 'https://linkedin.com/in/sarahmitchell',
-    behance: 'https://behance.net/sarahmitchell'
+    instagram: '',
+    linkedin: '',
+    behance: ''
   },
-  // Photo by Joshua Sun on Unsplash
   portraitImage: 'https://images.unsplash.com/photo-1585279968680-6606ee6ed134?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjI3Njk1NjB8&ixlib=rb-4.1.0&q=80&w=1080'
 };
