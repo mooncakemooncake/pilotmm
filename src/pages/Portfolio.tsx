@@ -1,7 +1,7 @@
 import { SEOHead } from '@/components/seo/SEOHead';
 import { motion } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { Leaf, Shield, ChevronDown } from 'lucide-react';
+import { Leaf, Shield, ChevronDown, FileSpreadsheet } from 'lucide-react';
 import { useState } from 'react';
 
 import obligorImg from '@/assets/obligor-information.png';
@@ -258,6 +258,18 @@ export default function Portfolio() {
                   <h3 className="text-lg font-semibold text-foreground mb-3">Cybersecurity Training</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">
                     In partnership with Cyber Ranges, Pilot offers advanced cybersecurity training to bolster organizational defenses. Using realistic simulations of real-world cyberattacks and cyber drills, the program identifies vulnerabilities and improves readiness. Trusted by the UN since 2017, it's a proven solution for national and regional cyber drills.
+                  </p>
+                </div>
+              </ScrollReveal>
+
+              <ScrollReveal delay={0.2}>
+                <div className="rounded-2xl border border-border bg-card p-8 h-full">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+                    <FileSpreadsheet className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground mb-3">Automated Financial Spreading</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    The Automated Financial Spreading module transforms raw financial data into customizable charts of accounts. Powered by a Large Language Model, it adapts to varied formats and provides multilingual translation, making it versatile and efficient for global financial reporting.
                   </p>
                 </div>
               </ScrollReveal>
