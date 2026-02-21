@@ -1,7 +1,7 @@
 import { SEOHead } from '@/components/seo/SEOHead';
 import { motion } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { Leaf, Shield, ChevronDown, FileSpreadsheet } from 'lucide-react';
+import { Leaf, Shield, ChevronDown, FileSpreadsheet, AlertTriangle, Link2, BarChart3 } from 'lucide-react';
 import { useState } from 'react';
 
 import obligorImg from '@/assets/obligor-information.png';
@@ -14,6 +14,15 @@ import externalDataImg from '@/assets/external-data.png';
 import adjustmentsImg from '@/assets/adjustments.png';
 import parentSupportImg from '@/assets/parent-support.png';
 import guarantorSupportImg from '@/assets/guarantor-support.png';
+import stressTestingImg from '@/assets/portfolio-stress-testing.png';
+import earlyWarningImg from '@/assets/early-warning-system.png';
+import integrationImg from '@/assets/integration-services.png';
+import biImg from '@/assets/business-intelligence.png';
+import modelDevImg from '@/assets/model-development.png';
+import modelValImg from '@/assets/model-validation.png';
+import esgImg from '@/assets/esg.png';
+import cybersecurityImg from '@/assets/cybersecurity.png';
+import afsImg from '@/assets/automated-financial-spreading.png';
 
 function SectionTitle({ children, subtitle }: { children: React.ReactNode; subtitle?: string }) {
   return (
@@ -38,7 +47,7 @@ function ServiceCard({ title, description, media, mediaType = 'image' }: {
         {media && (
           <div className="w-full overflow-hidden bg-muted">
             {mediaType === 'video' ? (
-              <video src={media} controls className="w-full" />
+              <video src={media} autoPlay loop muted playsInline className="w-full" />
             ) : (
               <img src={media} alt={title} className="w-full object-contain" />
             )}
@@ -115,7 +124,7 @@ export default function Portfolio() {
     {
       title: "Portfolio Stress Testing Module",
       description: "Portfolio Stress Testing in Credit Predix empowers financial institutions to assess the resilience of their borrower portfolios under various \"what-if\" scenarios. Users can stress test the entire portfolio or a filtered subset based on criteria such as industry, business unit, team, or country. Testing can focus on borrowers' financial statements, scorecards, or both, providing flexibility and insights into potential risks.",
-      images: [],
+      images: [stressTestingImg],
     },
   ];
 
@@ -188,6 +197,39 @@ export default function Portfolio() {
                 ))}
               </div>
             </div>
+
+            {/* 4. Early Warning System Module */}
+            <div className="mb-16">
+              <ScrollReveal>
+                <h3 className="text-2xl font-semibold text-foreground mb-4">4. Early Warning System Module</h3>
+                <p className="text-muted-foreground mb-6 max-w-4xl">
+                  Collates the collective knowledge of the bank and converts it to rules to assist loan officers when analyzing financial statements.
+                </p>
+                <img src={earlyWarningImg} alt="Early Warning System Module" className="w-full max-w-3xl rounded-xl border border-border shadow-sm" />
+              </ScrollReveal>
+            </div>
+
+            {/* 5. Integration Services */}
+            <div className="mb-16">
+              <ScrollReveal>
+                <h3 className="text-2xl font-semibold text-foreground mb-4">5. Integration Services</h3>
+                <p className="text-muted-foreground mb-6 max-w-4xl">
+                  Our Credit Scoring System can integrate with other software system in your organisation. For example, our System can capture and push data to and from your Loan Origination System ("LOS"), Enterprise Data Warehouse ("EDW") and other Core Banking System.
+                </p>
+                <img src={integrationImg} alt="Integration Services" className="w-full max-w-3xl rounded-xl border border-border shadow-sm" />
+              </ScrollReveal>
+            </div>
+
+            {/* 6. Business Intelligence & Reporting */}
+            <div className="mb-16">
+              <ScrollReveal>
+                <h3 className="text-2xl font-semibold text-foreground mb-4">6. Business Intelligence & Reporting</h3>
+                <p className="text-muted-foreground mb-6 max-w-4xl">
+                  Credit Predix offers business intelligence software that enables users to perform comprehensive analyses through beautifully presented data. Discover powerful insights and turn them into impact.
+                </p>
+                <img src={biImg} alt="Business Intelligence & Reporting" className="w-full max-w-3xl rounded-xl border border-border shadow-sm" />
+              </ScrollReveal>
+            </div>
           </div>
         </section>
 
@@ -205,9 +247,7 @@ export default function Portfolio() {
                   <p className="text-muted-foreground text-sm leading-relaxed">
                     Our model development service offers a statistical approach with a supplement of a judgmental approach to develop a state-of-the-art credit risk model that accurately rates the risk of a client. Our software automates the process of model development. The pipeline ensures a swift and seamless cycle from development to deployment.
                   </p>
-                  <div className="mt-6 h-48 rounded-lg bg-muted flex items-center justify-center text-muted-foreground text-sm italic">
-                    Image coming soon
-                  </div>
+                  <img src={modelDevImg} alt="Model Development" className="mt-6 w-full rounded-lg border border-border" />
                 </div>
               </ScrollReveal>
 
@@ -223,9 +263,7 @@ export default function Portfolio() {
                       <li><strong>Validation Report</strong> — Provides an independent and detailed evaluation of your models. Highlights strengths and weaknesses. Assesses model suitability for your business environment. Recommends actionable steps for improvement.</li>
                     </ul>
                   </div>
-                  <div className="mt-6 h-48 rounded-lg bg-muted flex items-center justify-center text-muted-foreground text-sm italic">
-                    Image coming soon
-                  </div>
+                  <img src={modelValImg} alt="Model Validation" className="mt-6 w-full rounded-lg border border-border" />
                 </div>
               </ScrollReveal>
             </div>
@@ -239,38 +277,47 @@ export default function Portfolio() {
 
             <div className="grid md:grid-cols-3 gap-8">
               <ScrollReveal>
-                <div className="rounded-2xl border border-border bg-card p-8 h-full">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-                    <Leaf className="w-6 h-6 text-primary" />
+                <div className="rounded-2xl border border-border bg-card overflow-hidden h-full">
+                  <img src={esgImg} alt="ESG" className="w-full object-contain" />
+                  <div className="p-8">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+                      <Leaf className="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-foreground mb-3">Environment, Social & Governance (ESG)</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      Our ESG Rating Scorecard combines Bank Negara's CCPT for environmental metrics with EU-aligned social and governance assessments, ensuring global-standard compliance. Showcase your commitment to sustainability, attract ESG-conscious investors, and gain a competitive edge. Empower your business with actionable insights to drive resilience and long-term value.
+                    </p>
                   </div>
-                  <h3 className="text-lg font-semibold text-foreground mb-3">Environment, Social & Governance (ESG)</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    Our ESG Rating Scorecard combines Bank Negara's CCPT for environmental metrics with EU-aligned social and governance assessments, ensuring global-standard compliance. Showcase your commitment to sustainability, attract ESG-conscious investors, and gain a competitive edge. Empower your business with actionable insights to drive resilience and long-term value.
-                  </p>
                 </div>
               </ScrollReveal>
 
               <ScrollReveal delay={0.1}>
-                <div className="rounded-2xl border border-border bg-card p-8 h-full">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-                    <Shield className="w-6 h-6 text-primary" />
+                <div className="rounded-2xl border border-border bg-card overflow-hidden h-full">
+                  <img src={cybersecurityImg} alt="Cybersecurity Training" className="w-full object-contain" />
+                  <div className="p-8">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+                      <Shield className="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-foreground mb-3">Cybersecurity Training</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      In partnership with Cyber Ranges, Pilot offers advanced cybersecurity training to bolster organizational defenses. Using realistic simulations of real-world cyberattacks and cyber drills, the program identifies vulnerabilities and improves readiness. Trusted by the UN since 2017, it's a proven solution for national and regional cyber drills.
+                    </p>
                   </div>
-                  <h3 className="text-lg font-semibold text-foreground mb-3">Cybersecurity Training</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    In partnership with Cyber Ranges, Pilot offers advanced cybersecurity training to bolster organizational defenses. Using realistic simulations of real-world cyberattacks and cyber drills, the program identifies vulnerabilities and improves readiness. Trusted by the UN since 2017, it's a proven solution for national and regional cyber drills.
-                  </p>
                 </div>
               </ScrollReveal>
 
               <ScrollReveal delay={0.2}>
-                <div className="rounded-2xl border border-border bg-card p-8 h-full">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-                    <FileSpreadsheet className="w-6 h-6 text-primary" />
+                <div className="rounded-2xl border border-border bg-card overflow-hidden h-full">
+                  <img src={afsImg} alt="Automated Financial Spreading" className="w-full object-contain" />
+                  <div className="p-8">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
+                      <FileSpreadsheet className="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-foreground mb-3">Automated Financial Spreading</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      The Automated Financial Spreading module transforms raw financial data into customizable charts of accounts. Powered by a Large Language Model, it adapts to varied formats and provides multilingual translation, making it versatile and efficient for global financial reporting.
+                    </p>
                   </div>
-                  <h3 className="text-lg font-semibold text-foreground mb-3">Automated Financial Spreading</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    The Automated Financial Spreading module transforms raw financial data into customizable charts of accounts. Powered by a Large Language Model, it adapts to varied formats and provides multilingual translation, making it versatile and efficient for global financial reporting.
-                  </p>
                 </div>
               </ScrollReveal>
             </div>
