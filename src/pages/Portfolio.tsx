@@ -1,7 +1,7 @@
 import { SEOHead } from '@/components/seo/SEOHead';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { Leaf, Shield, ChevronDown, FileSpreadsheet, AlertTriangle, Link2, BarChart3 } from 'lucide-react';
+import { Leaf, Shield, ChevronDown, ChevronLeft, ChevronRight, FileSpreadsheet, AlertTriangle, Link2, BarChart3 } from 'lucide-react';
 import { useState } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
@@ -86,6 +86,56 @@ function CollapsibleSubsection({ title, description, images }: {
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+function ScorecardCarousel({ subsections }: { subsections: { title: string; description: string; images: string[] }[] }) {
+  const [current, setCurrent] = useState(0);
+  const prev = () => setCurrent((c) => (c - 1 + subsections.length) % subsections.length);
+  const next = () => setCurrent((c) => (c + 1) % subsections.length);
+  const sub = subsections[current];
+
+  return (
+    <div className="rounded-2xl border border-border bg-card p-8">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-2xl font-semibold text-foreground">Scorecard & Risk Rule Module</h3>
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-muted-foreground">{current + 1} / {subsections.length}</span>
+          <button onClick={prev} className="p-2 rounded-lg border border-border hover:bg-accent transition-colors">
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button onClick={next} className="p-2 rounded-lg border border-border hover:bg-accent transition-colors">
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={current}
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -30 }}
+          transition={{ duration: 0.25 }}
+        >
+          <h4 className="text-lg font-semibold text-foreground mb-3">{sub.title}</h4>
+          <p className="text-muted-foreground text-sm leading-relaxed mb-6">{sub.description}</p>
+          <div className="space-y-4">
+            {sub.images.map((img, i) => (
+              <img key={i} src={img} alt={sub.title} className="w-full max-w-3xl rounded-xl border border-border shadow-sm" />
+            ))}
+          </div>
+        </motion.div>
+      </AnimatePresence>
+      <div className="flex justify-center gap-2 mt-6">
+        {subsections.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            className={`w-2.5 h-2.5 rounded-full transition-colors ${i === current ? 'bg-primary' : 'bg-border hover:bg-muted-foreground/50'}`}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -196,14 +246,7 @@ export default function Portfolio() {
               </TabsContent>
 
               <TabsContent value="scorecard" className="mt-0">
-                <div className="rounded-2xl border border-border bg-card p-8">
-                  <h3 className="text-2xl font-semibold text-foreground mb-6">Scorecard & Risk Rule Module</h3>
-                  <div className="space-y-3">
-                    {scorecardSubsections.map((sub) => (
-                      <CollapsibleSubsection key={sub.title} {...sub} />
-                    ))}
-                  </div>
-                </div>
+                <ScorecardCarousel subsections={scorecardSubsections} />
               </TabsContent>
 
               <TabsContent value="earlywarning" className="mt-0">
@@ -246,21 +289,27 @@ export default function Portfolio() {
               Model Development & Validation
             </SectionTitle>
 
-            <div className="grid md:grid-cols-2 gap-12">
-              <ScrollReveal>
-                <div className="rounded-2xl border border-border bg-card p-8">
-                  <h3 className="text-xl font-semibold text-foreground mb-4">Model Development</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
+            {/* Model Development */}
+            <ScrollReveal>
+              <div className="flex flex-col md:flex-row items-center gap-10 mb-20">
+                <div className="md:w-1/2">
+                  <h3 className="text-2xl font-semibold text-foreground mb-4">Model Development</h3>
+                  <p className="text-muted-foreground leading-relaxed">
                     Our model development service offers a statistical approach with a supplement of a judgmental approach to develop a state-of-the-art credit risk model that accurately rates the risk of a client. Our software automates the process of model development. The pipeline ensures a swift and seamless cycle from development to deployment.
                   </p>
-                  <img src={modelDevImg} alt="Model Development" className="mt-6 w-full rounded-lg border border-border" />
                 </div>
-              </ScrollReveal>
+                <div className="md:w-1/2">
+                  <img src={modelDevImg} alt="Model Development" className="w-full rounded-xl border border-border shadow-sm" />
+                </div>
+              </div>
+            </ScrollReveal>
 
-              <ScrollReveal delay={0.1}>
-                <div className="rounded-2xl border border-border bg-card p-8">
-                  <h3 className="text-xl font-semibold text-foreground mb-4">Model Validation</h3>
-                  <div className="text-muted-foreground text-sm leading-relaxed space-y-3">
+            {/* Model Validation */}
+            <ScrollReveal>
+              <div className="flex flex-col md:flex-row-reverse items-center gap-10">
+                <div className="md:w-1/2">
+                  <h3 className="text-2xl font-semibold text-foreground mb-4">Model Validation</h3>
+                  <div className="text-muted-foreground leading-relaxed space-y-3">
                     <p className="font-medium text-foreground">Features of Model Validation:</p>
                     <ul className="space-y-2 list-disc pl-5">
                       <li><strong>Model Validation Process</strong> — Ensures models are methodologically robust, compliant with regulations set by the Basel Committee on Banking Supervision (BCBS), and aligned with internal standards.</li>
@@ -269,10 +318,12 @@ export default function Portfolio() {
                       <li><strong>Validation Report</strong> — Provides an independent and detailed evaluation of your models. Highlights strengths and weaknesses. Assesses model suitability for your business environment. Recommends actionable steps for improvement.</li>
                     </ul>
                   </div>
-                  <img src={modelValImg} alt="Model Validation" className="mt-6 w-full rounded-lg border border-border" />
                 </div>
-              </ScrollReveal>
-            </div>
+                <div className="md:w-1/2">
+                  <img src={modelValImg} alt="Model Validation" className="w-full rounded-xl border border-border shadow-sm" />
+                </div>
+              </div>
+            </ScrollReveal>
           </div>
         </section>
 
