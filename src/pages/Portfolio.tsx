@@ -1,8 +1,9 @@
 import { SEOHead } from '@/components/seo/SEOHead';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Leaf, Shield, ChevronDown, FileSpreadsheet, AlertTriangle, Link2, BarChart3 } from 'lucide-react';
 import { useState } from 'react';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
 import obligorImg from '@/assets/obligor-information.png';
 import projectionVideo from '@/assets/projection.mp4';
@@ -155,81 +156,86 @@ export default function Portfolio() {
               Credit Predix Rating System (CPRS)
             </SectionTitle>
 
-            {/* 1. Obligor Information Module */}
-            <div className="mb-16">
-              <ScrollReveal>
-                <h3 className="text-2xl font-semibold text-foreground mb-4">1. Obligor Information Module</h3>
-                <p className="text-muted-foreground mb-6 max-w-4xl">
-                  Captures relevant information of the bank's client, able to be integrated with other software such as the bank's Loan Origination System ('LOS').
-                </p>
-                <img src={obligorImg} alt="Obligor Information Module" className="w-full max-w-3xl rounded-xl border border-border shadow-sm" />
-              </ScrollReveal>
-            </div>
+            <Tabs defaultValue="obligor" className="w-full">
+              <TabsList className="w-full flex flex-wrap h-auto gap-2 bg-muted/50 p-2 rounded-xl mb-8">
+                <TabsTrigger value="obligor" className="flex-1 min-w-[140px] text-xs md:text-sm py-2.5">1. Obligor Information</TabsTrigger>
+                <TabsTrigger value="finanalytics" className="flex-1 min-w-[140px] text-xs md:text-sm py-2.5">2. FINAnalytics</TabsTrigger>
+                <TabsTrigger value="scorecard" className="flex-1 min-w-[140px] text-xs md:text-sm py-2.5">3. Scorecard & Risk Rule</TabsTrigger>
+                <TabsTrigger value="earlywarning" className="flex-1 min-w-[140px] text-xs md:text-sm py-2.5">4. Early Warning</TabsTrigger>
+                <TabsTrigger value="integration" className="flex-1 min-w-[140px] text-xs md:text-sm py-2.5">5. Integration</TabsTrigger>
+                <TabsTrigger value="bi" className="flex-1 min-w-[140px] text-xs md:text-sm py-2.5">6. BI & Reporting</TabsTrigger>
+              </TabsList>
 
-            {/* 2. FINAnalytics Module */}
-            <div className="mb-16">
-              <ScrollReveal>
-                <h3 className="text-2xl font-semibold text-foreground mb-6">2. FINAnalytics Module</h3>
-              </ScrollReveal>
-              <div className="grid md:grid-cols-2 gap-8">
-                <ServiceCard
-                  title="Projection Module"
-                  description="Enables financial projections with configurable assumption drivers, instantly reflecting results as assumptions are entered, allowing users to simulate various scenarios and conduct stress testing of financials effortlessly."
-                  media={projectionVideo}
-                  mediaType="video"
-                />
-                <ServiceCard
-                  title="Historical Financial"
-                  description="Highly configurable chart of accounts that can be tailored to specific industries, allowing analysis to be done easily. Financial ratios are automatically calculated to reduce human error."
-                  media={finanalyticsImg}
-                />
-              </div>
-            </div>
+              <TabsContent value="obligor" className="mt-0">
+                <div className="rounded-2xl border border-border bg-card p-8">
+                  <h3 className="text-2xl font-semibold text-foreground mb-4">Obligor Information Module</h3>
+                  <p className="text-muted-foreground mb-6 max-w-4xl">
+                    Captures relevant information of the bank's client, able to be integrated with other software such as the bank's Loan Origination System ('LOS').
+                  </p>
+                  <img src={obligorImg} alt="Obligor Information Module" className="w-full max-w-3xl rounded-xl border border-border shadow-sm" />
+                </div>
+              </TabsContent>
 
-            {/* 3. Scorecard & Risk Rule Module */}
-            <div className="mb-16">
-              <ScrollReveal>
-                <h3 className="text-2xl font-semibold text-foreground mb-6">3. Scorecard & Risk Rule Module</h3>
-              </ScrollReveal>
-              <div className="space-y-3">
-                {scorecardSubsections.map((sub) => (
-                  <CollapsibleSubsection key={sub.title} {...sub} />
-                ))}
-              </div>
-            </div>
+              <TabsContent value="finanalytics" className="mt-0">
+                <div className="rounded-2xl border border-border bg-card p-8">
+                  <h3 className="text-2xl font-semibold text-foreground mb-6">FINAnalytics Module</h3>
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <ServiceCard
+                      title="Projection Module"
+                      description="Enables financial projections with configurable assumption drivers, instantly reflecting results as assumptions are entered, allowing users to simulate various scenarios and conduct stress testing of financials effortlessly."
+                      media={projectionVideo}
+                      mediaType="video"
+                    />
+                    <ServiceCard
+                      title="Historical Financial"
+                      description="Highly configurable chart of accounts that can be tailored to specific industries, allowing analysis to be done easily. Financial ratios are automatically calculated to reduce human error."
+                      media={finanalyticsImg}
+                    />
+                  </div>
+                </div>
+              </TabsContent>
 
-            {/* 4. Early Warning System Module */}
-            <div className="mb-16">
-              <ScrollReveal>
-                <h3 className="text-2xl font-semibold text-foreground mb-4">4. Early Warning System Module</h3>
-                <p className="text-muted-foreground mb-6 max-w-4xl">
-                  Collates the collective knowledge of the bank and converts it to rules to assist loan officers when analyzing financial statements.
-                </p>
-                <img src={earlyWarningImg} alt="Early Warning System Module" className="w-full max-w-3xl rounded-xl border border-border shadow-sm" />
-              </ScrollReveal>
-            </div>
+              <TabsContent value="scorecard" className="mt-0">
+                <div className="rounded-2xl border border-border bg-card p-8">
+                  <h3 className="text-2xl font-semibold text-foreground mb-6">Scorecard & Risk Rule Module</h3>
+                  <div className="space-y-3">
+                    {scorecardSubsections.map((sub) => (
+                      <CollapsibleSubsection key={sub.title} {...sub} />
+                    ))}
+                  </div>
+                </div>
+              </TabsContent>
 
-            {/* 5. Integration Services */}
-            <div className="mb-16">
-              <ScrollReveal>
-                <h3 className="text-2xl font-semibold text-foreground mb-4">5. Integration Services</h3>
-                <p className="text-muted-foreground mb-6 max-w-4xl">
-                  Our Credit Scoring System can integrate with other software system in your organisation. For example, our System can capture and push data to and from your Loan Origination System ("LOS"), Enterprise Data Warehouse ("EDW") and other Core Banking System.
-                </p>
-                <img src={integrationImg} alt="Integration Services" className="w-full max-w-3xl rounded-xl border border-border shadow-sm" />
-              </ScrollReveal>
-            </div>
+              <TabsContent value="earlywarning" className="mt-0">
+                <div className="rounded-2xl border border-border bg-card p-8">
+                  <h3 className="text-2xl font-semibold text-foreground mb-4">Early Warning System Module</h3>
+                  <p className="text-muted-foreground mb-6 max-w-4xl">
+                    Collates the collective knowledge of the bank and converts it to rules to assist loan officers when analyzing financial statements.
+                  </p>
+                  <img src={earlyWarningImg} alt="Early Warning System Module" className="w-full max-w-3xl rounded-xl border border-border shadow-sm" />
+                </div>
+              </TabsContent>
 
-            {/* 6. Business Intelligence & Reporting */}
-            <div className="mb-16">
-              <ScrollReveal>
-                <h3 className="text-2xl font-semibold text-foreground mb-4">6. Business Intelligence & Reporting</h3>
-                <p className="text-muted-foreground mb-6 max-w-4xl">
-                  Credit Predix offers business intelligence software that enables users to perform comprehensive analyses through beautifully presented data. Discover powerful insights and turn them into impact.
-                </p>
-                <img src={biImg} alt="Business Intelligence & Reporting" className="w-full max-w-3xl rounded-xl border border-border shadow-sm" />
-              </ScrollReveal>
-            </div>
+              <TabsContent value="integration" className="mt-0">
+                <div className="rounded-2xl border border-border bg-card p-8">
+                  <h3 className="text-2xl font-semibold text-foreground mb-4">Integration Services</h3>
+                  <p className="text-muted-foreground mb-6 max-w-4xl">
+                    Our Credit Scoring System can integrate with other software system in your organisation. For example, our System can capture and push data to and from your Loan Origination System ("LOS"), Enterprise Data Warehouse ("EDW") and other Core Banking System.
+                  </p>
+                  <img src={integrationImg} alt="Integration Services" className="w-full max-w-3xl rounded-xl border border-border shadow-sm" />
+                </div>
+              </TabsContent>
+
+              <TabsContent value="bi" className="mt-0">
+                <div className="rounded-2xl border border-border bg-card p-8">
+                  <h3 className="text-2xl font-semibold text-foreground mb-4">Business Intelligence & Reporting</h3>
+                  <p className="text-muted-foreground mb-6 max-w-4xl">
+                    Credit Predix offers business intelligence software that enables users to perform comprehensive analyses through beautifully presented data. Discover powerful insights and turn them into impact.
+                  </p>
+                  <img src={biImg} alt="Business Intelligence & Reporting" className="w-full max-w-3xl rounded-xl border border-border shadow-sm" />
+                </div>
+              </TabsContent>
+            </Tabs>
           </div>
         </section>
 
