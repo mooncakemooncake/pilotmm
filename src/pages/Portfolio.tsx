@@ -2,7 +2,9 @@ import { SEOHead } from '@/components/seo/SEOHead';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Leaf, Shield, FileSpreadsheet, X } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import logoPyramid from '@/assets/logo-pyramid.png';
 import obligorImg from '@/assets/obligor-information.png';
@@ -207,21 +209,45 @@ function ScorecardPanel({ onClose }: { onClose: () => void }) {
   );
 }
 
-/* ─── Horizontal Scroll Box ─── */
+/* ─── GSAP Horizontal Scroll on Vertical Scroll ─── */
 function HorizontalModuleScroll({ modules, onSelect }: { modules: ModuleInfo[]; onSelect: (m: ModuleInfo) => void }) {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const section = sectionRef.current;
+    const track = trackRef.current;
+    if (!section || !track) return;
+
+    const totalScrollWidth = track.scrollWidth - window.innerWidth;
+
+    const ctx = gsap.context(() => {
+      gsap.to(track, {
+        x: -totalScrollWidth,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          pin: true,
+          scrub: 1,
+          end: () => `+=${totalScrollWidth}`,
+          invalidateOnRefresh: true,
+        },
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <div className="relative">
-      <div
-        ref={scrollRef}
-        className="flex gap-6 overflow-x-auto pb-4 hide-scrollbar snap-x snap-mandatory"
-      >
+    <div ref={sectionRef} className="overflow-hidden">
+      <div ref={trackRef} className="flex gap-6 w-max py-4">
         {modules.map((m) => (
           <button
             key={m.key}
             onClick={() => onSelect(m)}
-            className="snap-start shrink-0 w-[280px] md:w-[320px] rounded-2xl border border-border bg-card p-6 text-left hover:shadow-lg hover:border-primary/30 transition-all group"
+            className="shrink-0 w-[280px] md:w-[320px] rounded-2xl border border-border bg-card p-6 text-left hover:shadow-lg hover:border-primary/30 transition-all group"
           >
             {m.media && (
               <div className="w-full h-40 rounded-lg overflow-hidden mb-4 bg-muted">
