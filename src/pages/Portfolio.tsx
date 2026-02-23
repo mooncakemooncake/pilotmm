@@ -266,17 +266,14 @@ export default function Portfolio() {
           <div className="max-w-7xl mx-auto">
             <ScrollReveal>
               <div className="mb-16">
-                <div className="flex items-start gap-6 mb-6">
-                  <img src={logoPyramid} alt="Credit Predix Logo" className="w-16 h-16 md:w-20 md:h-20 object-contain shrink-0 mt-2" />
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-foreground leading-tight">
-                    Credit Predix —<br />
-                    <span className="text-muted-foreground font-light">
-                      Equipping you with the<br />
-                      best tools for<br />
-                      credit risk evaluation.
-                    </span>
-                  </h2>
-                </div>
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-foreground leading-tight">
+                  Credit Predix —<br />
+                  <span className="text-muted-foreground font-light">
+                    Equipping you with the<br />
+                    best tools for<br />
+                    credit risk evaluation.
+                  </span>
+                </h2>
               </div>
             </ScrollReveal>
 
