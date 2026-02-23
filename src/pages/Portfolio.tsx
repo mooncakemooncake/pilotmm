@@ -1,10 +1,10 @@
 import { SEOHead } from '@/components/seo/SEOHead';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { Leaf, Shield, ChevronDown, ChevronLeft, ChevronRight, FileSpreadsheet, AlertTriangle, Link2, BarChart3 } from 'lucide-react';
-import { useState } from 'react';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Leaf, Shield, FileSpreadsheet, X } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
 
+import logoPyramid from '@/assets/logo-pyramid.png';
 import obligorImg from '@/assets/obligor-information.png';
 import projectionVideo from '@/assets/projection.mp4';
 import finanalyticsImg from '@/assets/finanalytiks.png';
@@ -25,159 +25,221 @@ import esgImg from '@/assets/esg.png';
 import cybersecurityImg from '@/assets/cybersecurity.png';
 import afsImg from '@/assets/automated-financial-spreading.png';
 
-function SectionTitle({ children, subtitle }: { children: React.ReactNode; subtitle?: string }) {
-  return (
-    <ScrollReveal>
-      <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">{children}</h2>
-        {subtitle && <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">{subtitle}</p>}
-      </div>
-    </ScrollReveal>
-  );
-}
-
-function ServiceCard({ title, description, media, mediaType = 'image' }: {
+/* ─── Types ─── */
+interface ModuleInfo {
+  key: string;
   title: string;
   description: string;
   media?: string;
   mediaType?: 'image' | 'video';
-}) {
-  return (
-    <ScrollReveal>
-      <div className="rounded-2xl border border-border bg-card overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-        {media && (
-          <div className="w-full overflow-hidden bg-muted">
-            {mediaType === 'video' ? (
-              <video src={media} autoPlay loop muted playsInline className="w-full" />
-            ) : (
-              <img src={media} alt={title} className="w-full object-contain" />
-            )}
-          </div>
-        )}
-        <div className="p-6">
-          <h4 className="text-lg font-semibold text-foreground mb-2">{title}</h4>
-          <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
-        </div>
-      </div>
-    </ScrollReveal>
-  );
+  extraMedia?: string;
 }
 
-function CollapsibleSubsection({ title, description, images }: {
+interface ScorecardSub {
   title: string;
   description: string;
   images: string[];
-}) {
-  const [open, setOpen] = useState(false);
+}
+
+/* ─── Data ─── */
+const cprsModules: ModuleInfo[] = [
+  {
+    key: 'obligor',
+    title: 'Obligor Information',
+    description: "Captures relevant information of the bank's client, able to be integrated with other software such as the bank's Loan Origination System ('LOS').",
+    media: obligorImg,
+  },
+  {
+    key: 'finanalytics',
+    title: 'FINAnalytics',
+    description: 'Highly configurable chart of accounts with financial projections, scenario simulation, stress testing, and automatic ratio calculations.',
+    media: finanalyticsImg,
+    extraMedia: projectionVideo,
+  },
+  {
+    key: 'scorecard',
+    title: 'Scorecard & Risk Rule',
+    description: 'Extremely flexible, configurable scorecard with quantitative, qualitative factors, external data, adjustments, and support modules.',
+    media: scorecardImg,
+  },
+  {
+    key: 'earlywarning',
+    title: 'Early Warning System',
+    description: "Collates the collective knowledge of the bank and converts it to rules to assist loan officers when analyzing financial statements.",
+    media: earlyWarningImg,
+  },
+  {
+    key: 'integration',
+    title: 'Integration Services',
+    description: 'Integrates with LOS, Enterprise Data Warehouse, Core Banking Systems, and other software in your organisation.',
+    media: integrationImg,
+  },
+  {
+    key: 'bi',
+    title: 'BI & Reporting',
+    description: 'Business intelligence software enabling comprehensive analyses through beautifully presented data. Discover powerful insights and turn them into impact.',
+    media: biImg,
+  },
+];
+
+const scorecardSubsections: ScorecardSub[] = [
+  { title: "Scorecard & Risk Rules", description: "The Scorecard & Risk Rules is extremely flexible and configurable by the User. It provides a rating for the Borrower or Obligor and the Facility.", images: [scorecardImg] },
+  { title: "Quantitative Factors", description: "Financial values are automatically mapped from financial spreadsheets. Values can be manually overridden with justification.", images: [quantitativeImg] },
+  { title: "Qualitative Factors", description: "User selects the appropriate option via radio buttons. Scores are displayed as 'Item Formula Output'.", images: [qualitativeImg] },
+  { title: "External Data", description: "Supports external ratings by Moody's, S&P, and Fitch. Incorporate Sovereign Ratings/Country Risks in your Scorecard.", images: [externalDataImg] },
+  { title: "Adjustments", description: "Special Treatment and Overrides for adjustments based on bank policies — audited accounts, qualified financials, high-risk industry.", images: [adjustmentsImg] },
+  { title: "Parent & Guarantor Support", description: "Flexibility to incorporate Parent Support and Guarantor Support in your Scorecard.", images: [parentSupportImg, guarantorSupportImg] },
+  { title: "Portfolio Stress Testing", description: "Assess portfolio resilience under what-if scenarios. Stress test by industry, business unit, team, or country.", images: [stressTestingImg] },
+];
+
+/* ─── Module Popup ─── */
+function ModulePopup({ module, onClose }: { module: ModuleInfo; onClose: () => void }) {
+  const isScorecard = module.key === 'scorecard';
+
+  if (isScorecard) {
+    return <ScorecardPanel onClose={onClose} />;
+  }
+
   return (
-    <div className="border border-border rounded-xl overflow-hidden bg-card">
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between p-5 text-left hover:bg-accent/50 transition-colors"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 backdrop-blur-sm p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        className="bg-card rounded-2xl border border-border shadow-xl max-w-4xl w-full max-h-[85vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
       >
-        <h5 className="text-base font-semibold text-foreground">{title}</h5>
-        <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform ${open ? 'rotate-180' : ''}`} />
-      </button>
-      {open && (
-        <div className="px-5 pb-5 space-y-4">
-          <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
-          {images.map((img, i) => (
-            <img key={i} src={img} alt={title} className="w-full rounded-lg border border-border" />
-          ))}
+        <div className="flex items-center justify-between p-6 border-b border-border">
+          <h3 className="text-2xl font-semibold text-foreground">{module.title}</h3>
+          <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent transition-colors">
+            <X className="w-5 h-5" />
+          </button>
         </div>
-      )}
-    </div>
+        <div className="p-6 space-y-6">
+          <p className="text-muted-foreground leading-relaxed">{module.description}</p>
+          {module.key === 'finanalytics' && module.extraMedia && (
+            <div className="space-y-4">
+              <h4 className="text-lg font-semibold text-foreground">Projection Module</h4>
+              <video src={module.extraMedia} autoPlay loop muted playsInline className="w-full rounded-xl border border-border" />
+              <h4 className="text-lg font-semibold text-foreground mt-6">Historical Financial</h4>
+            </div>
+          )}
+          {module.media && (
+            <img src={module.media} alt={module.title} className="w-full rounded-xl border border-border" />
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
-function ScorecardCarousel({ subsections }: { subsections: { title: string; description: string; images: string[] }[] }) {
-  const [current, setCurrent] = useState(0);
-  const prev = () => setCurrent((c) => (c - 1 + subsections.length) % subsections.length);
-  const next = () => setCurrent((c) => (c + 1) % subsections.length);
-  const sub = subsections[current];
+/* ─── Scorecard Panel (Collapsible Left + Content Right) ─── */
+function ScorecardPanel({ onClose }: { onClose: () => void }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const sub = scorecardSubsections[activeIndex];
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-8">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-2xl font-semibold text-foreground">Scorecard & Risk Rule Module</h3>
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">{current + 1} / {subsections.length}</span>
-          <button onClick={prev} className="p-2 rounded-lg border border-border hover:bg-accent transition-colors">
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <button onClick={next} className="p-2 rounded-lg border border-border hover:bg-accent transition-colors">
-            <ChevronRight className="w-5 h-5" />
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 backdrop-blur-sm p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        className="bg-card rounded-2xl border border-border shadow-xl max-w-6xl w-full max-h-[85vh] overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between p-6 border-b border-border">
+          <h3 className="text-2xl font-semibold text-foreground">Scorecard & Risk Rule Module</h3>
+          <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent transition-colors">
+            <X className="w-5 h-5" />
           </button>
         </div>
-      </div>
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={current}
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -30 }}
-          transition={{ duration: 0.25 }}
-        >
-          <h4 className="text-lg font-semibold text-foreground mb-3">{sub.title}</h4>
-          <p className="text-muted-foreground text-sm leading-relaxed mb-6">{sub.description}</p>
-          <div className="space-y-4">
-            {sub.images.map((img, i) => (
-              <img key={i} src={img} alt={sub.title} className="w-full max-w-3xl rounded-xl border border-border shadow-sm" />
+        <div className="flex min-h-[500px]">
+          {/* Left - collapsible list */}
+          <div className="w-64 shrink-0 border-r border-border overflow-y-auto bg-secondary/30">
+            {scorecardSubsections.map((s, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveIndex(i)}
+                className={`w-full text-left px-5 py-4 text-sm font-medium transition-colors border-b border-border ${
+                  i === activeIndex
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-foreground hover:bg-accent'
+                }`}
+              >
+                {s.title}
+              </button>
             ))}
           </div>
-        </motion.div>
-      </AnimatePresence>
-      <div className="flex justify-center gap-2 mt-6">
-        {subsections.map((_, i) => (
+          {/* Right - content */}
+          <div className="flex-1 overflow-y-auto p-6">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeIndex}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-4"
+              >
+                <h4 className="text-xl font-semibold text-foreground">{sub.title}</h4>
+                <p className="text-muted-foreground leading-relaxed">{sub.description}</p>
+                {sub.images.map((img, i) => (
+                  <img key={i} src={img} alt={sub.title} className="w-full rounded-xl border border-border shadow-sm" />
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* ─── Horizontal Scroll Box ─── */
+function HorizontalModuleScroll({ modules, onSelect }: { modules: ModuleInfo[]; onSelect: (m: ModuleInfo) => void }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <div className="relative">
+      <div
+        ref={scrollRef}
+        className="flex gap-6 overflow-x-auto pb-4 hide-scrollbar snap-x snap-mandatory"
+      >
+        {modules.map((m) => (
           <button
-            key={i}
-            onClick={() => setCurrent(i)}
-            className={`w-2.5 h-2.5 rounded-full transition-colors ${i === current ? 'bg-primary' : 'bg-border hover:bg-muted-foreground/50'}`}
-          />
+            key={m.key}
+            onClick={() => onSelect(m)}
+            className="snap-start shrink-0 w-[280px] md:w-[320px] rounded-2xl border border-border bg-card p-6 text-left hover:shadow-lg hover:border-primary/30 transition-all group"
+          >
+            {m.media && (
+              <div className="w-full h-40 rounded-lg overflow-hidden mb-4 bg-muted">
+                <img src={m.media} alt={m.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              </div>
+            )}
+            <h4 className="text-base font-semibold text-foreground mb-2">{m.title}</h4>
+            <p className="text-muted-foreground text-sm line-clamp-2">{m.description}</p>
+          </button>
         ))}
       </div>
     </div>
   );
 }
 
+/* ─── Main Page ─── */
 export default function Portfolio() {
-  const scorecardSubsections = [
-    {
-      title: "Scorecard & Risk Rules",
-      description: "The Scorecard & Risk Rules is extremely flexible and is configurable by the User. It provides a rating for the Borrower or Obligor and the Facility. The Scorecard can contain quantitative and qualitative factors.",
-      images: [scorecardImg],
-    },
-    {
-      title: "Quantitative Factors",
-      description: "Quantitative Factors are usually the Financial Factors. The financial values are automatically mapped from financial spreadsheet \"attached\" to the Scorecard. Financial value of the factors can be manually override. However, User will need to provide a reason for the override.",
-      images: [quantitativeImg],
-    },
-    {
-      title: "Qualitative Factors",
-      description: "For the qualitative factors, User selects the appropriate option by clicking on the radio button. The scores of the selected option are displayed as \"Item Formula Output\" on the right-hand side of the screenshot.",
-      images: [qualitativeImg],
-    },
-    {
-      title: "External Data",
-      description: "Our System supports the use of external data such as external ratings by Moody's, S&P and Fitch in your Scorecard. For example, User can incorporate Sovereign Ratings/Country Risks in their Scorecard.",
-      images: [externalDataImg],
-    },
-    {
-      title: "Adjustments",
-      description: "Our System has another feature of \"Special Treatment and Overrides\". This is to cater for Adjustments to the Borrower's Grade based on the Bank's policies. Examples of Adjustments are; \"Are the Financial Accounts Audited?\", \"Are the Financials Qualified?\" and \"High Risk Industry\".",
-      images: [adjustmentsImg],
-    },
-    {
-      title: "Parent Support & Guarantor Support",
-      description: "User has the flexibility of incorporating Parent Support and Guarantor Support in their Scorecard.",
-      images: [parentSupportImg, guarantorSupportImg],
-    },
-    {
-      title: "Portfolio Stress Testing Module",
-      description: "Portfolio Stress Testing in Credit Predix empowers financial institutions to assess the resilience of their borrower portfolios under various \"what-if\" scenarios. Users can stress test the entire portfolio or a filtered subset based on criteria such as industry, business unit, team, or country. Testing can focus on borrowers' financial statements, scorecards, or both, providing flexibility and insights into potential risks.",
-      images: [stressTestingImg],
-    },
-  ];
+  const [selectedModule, setSelectedModule] = useState<ModuleInfo | null>(null);
 
   return (
     <>
@@ -199,97 +261,48 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* CPRS Section */}
+        {/* CPRS Section - Big Hero Title + Horizontal Scroll */}
         <section className="py-20 md:py-28 px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
-            <SectionTitle subtitle="Equipping you with the best tools for credit risk evaluation">
-              Credit Predix Rating System (CPRS)
-            </SectionTitle>
-
-            <Tabs defaultValue="obligor" className="w-full">
-              <TabsList className="w-full flex flex-wrap h-auto gap-2 bg-muted/50 p-2 rounded-xl mb-8">
-                <TabsTrigger value="obligor" className="flex-1 min-w-[140px] text-xs md:text-sm py-2.5">1. Obligor Information</TabsTrigger>
-                <TabsTrigger value="finanalytics" className="flex-1 min-w-[140px] text-xs md:text-sm py-2.5">2. FINAnalytics</TabsTrigger>
-                <TabsTrigger value="scorecard" className="flex-1 min-w-[140px] text-xs md:text-sm py-2.5">3. Scorecard & Risk Rule</TabsTrigger>
-                <TabsTrigger value="earlywarning" className="flex-1 min-w-[140px] text-xs md:text-sm py-2.5">4. Early Warning</TabsTrigger>
-                <TabsTrigger value="integration" className="flex-1 min-w-[140px] text-xs md:text-sm py-2.5">5. Integration</TabsTrigger>
-                <TabsTrigger value="bi" className="flex-1 min-w-[140px] text-xs md:text-sm py-2.5">6. BI & Reporting</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="obligor" className="mt-0">
-                <div className="rounded-2xl border border-border bg-card p-8">
-                  <h3 className="text-2xl font-semibold text-foreground mb-4">Obligor Information Module</h3>
-                  <p className="text-muted-foreground mb-6 max-w-4xl">
-                    Captures relevant information of the bank's client, able to be integrated with other software such as the bank's Loan Origination System ('LOS').
-                  </p>
-                  <img src={obligorImg} alt="Obligor Information Module" className="w-full max-w-3xl rounded-xl border border-border shadow-sm" />
+            <ScrollReveal>
+              <div className="mb-16">
+                <div className="flex items-start gap-6 mb-6">
+                  <img src={logoPyramid} alt="Credit Predix Logo" className="w-16 h-16 md:w-20 md:h-20 object-contain shrink-0 mt-2" />
+                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-foreground leading-tight">
+                    Credit Predix —<br />
+                    <span className="text-muted-foreground font-light">
+                      Equipping you with the<br />
+                      best tools for<br />
+                      credit risk evaluation.
+                    </span>
+                  </h2>
                 </div>
-              </TabsContent>
+              </div>
+            </ScrollReveal>
 
-              <TabsContent value="finanalytics" className="mt-0">
-                <div className="rounded-2xl border border-border bg-card p-8">
-                  <h3 className="text-2xl font-semibold text-foreground mb-6">FINAnalytics Module</h3>
-                  <div className="grid md:grid-cols-2 gap-8">
-                    <ServiceCard
-                      title="Projection Module"
-                      description="Enables financial projections with configurable assumption drivers, instantly reflecting results as assumptions are entered, allowing users to simulate various scenarios and conduct stress testing of financials effortlessly."
-                      media={projectionVideo}
-                      mediaType="video"
-                    />
-                    <ServiceCard
-                      title="Historical Financial"
-                      description="Highly configurable chart of accounts that can be tailored to specific industries, allowing analysis to be done easily. Financial ratios are automatically calculated to reduce human error."
-                      media={finanalyticsImg}
-                    />
-                  </div>
-                </div>
-              </TabsContent>
-
-              <TabsContent value="scorecard" className="mt-0">
-                <ScorecardCarousel subsections={scorecardSubsections} />
-              </TabsContent>
-
-              <TabsContent value="earlywarning" className="mt-0">
-                <div className="rounded-2xl border border-border bg-card p-8">
-                  <h3 className="text-2xl font-semibold text-foreground mb-4">Early Warning System Module</h3>
-                  <p className="text-muted-foreground mb-6 max-w-4xl">
-                    Collates the collective knowledge of the bank and converts it to rules to assist loan officers when analyzing financial statements.
-                  </p>
-                  <img src={earlyWarningImg} alt="Early Warning System Module" className="w-full max-w-3xl rounded-xl border border-border shadow-sm" />
-                </div>
-              </TabsContent>
-
-              <TabsContent value="integration" className="mt-0">
-                <div className="rounded-2xl border border-border bg-card p-8">
-                  <h3 className="text-2xl font-semibold text-foreground mb-4">Integration Services</h3>
-                  <p className="text-muted-foreground mb-6 max-w-4xl">
-                    Our Credit Scoring System can integrate with other software system in your organisation. For example, our System can capture and push data to and from your Loan Origination System ("LOS"), Enterprise Data Warehouse ("EDW") and other Core Banking System.
-                  </p>
-                  <img src={integrationImg} alt="Integration Services" className="w-full max-w-3xl rounded-xl border border-border shadow-sm" />
-                </div>
-              </TabsContent>
-
-              <TabsContent value="bi" className="mt-0">
-                <div className="rounded-2xl border border-border bg-card p-8">
-                  <h3 className="text-2xl font-semibold text-foreground mb-4">Business Intelligence & Reporting</h3>
-                  <p className="text-muted-foreground mb-6 max-w-4xl">
-                    Credit Predix offers business intelligence software that enables users to perform comprehensive analyses through beautifully presented data. Discover powerful insights and turn them into impact.
-                  </p>
-                  <img src={biImg} alt="Business Intelligence & Reporting" className="w-full max-w-3xl rounded-xl border border-border shadow-sm" />
-                </div>
-              </TabsContent>
-            </Tabs>
+            <HorizontalModuleScroll modules={cprsModules} onSelect={setSelectedModule} />
           </div>
         </section>
+
+        {/* Module Popup */}
+        <AnimatePresence>
+          {selectedModule && (
+            <ModulePopup module={selectedModule} onClose={() => setSelectedModule(null)} />
+          )}
+        </AnimatePresence>
 
         {/* Model Development & Validation */}
         <section className="py-20 md:py-28 px-6 lg:px-8 bg-secondary/30">
           <div className="max-w-7xl mx-auto">
-            <SectionTitle subtitle="Our software automates the processes of model development and validation, significantly reducing the time required while enhancing the reliability and accuracy of the models.">
-              Model Development & Validation
-            </SectionTitle>
+            <ScrollReveal>
+              <div className="text-center mb-16">
+                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">Model Development & Validation</h2>
+                <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+                  Our software automates the processes of model development and validation, significantly reducing the time required while enhancing the reliability and accuracy of the models.
+                </p>
+              </div>
+            </ScrollReveal>
 
-            {/* Model Development */}
             <ScrollReveal>
               <div className="flex flex-col md:flex-row items-center gap-10 mb-20">
                 <div className="md:w-1/2">
@@ -304,7 +317,6 @@ export default function Portfolio() {
               </div>
             </ScrollReveal>
 
-            {/* Model Validation */}
             <ScrollReveal>
               <div className="flex flex-col md:flex-row-reverse items-center gap-10">
                 <div className="md:w-1/2">
@@ -330,7 +342,11 @@ export default function Portfolio() {
         {/* Additional Services */}
         <section className="py-20 md:py-28 px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
-            <SectionTitle>Additional Services</SectionTitle>
+            <ScrollReveal>
+              <div className="text-center mb-16">
+                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">Additional Services</h2>
+              </div>
+            </ScrollReveal>
 
             <div className="grid md:grid-cols-3 gap-8">
               <ScrollReveal>
@@ -342,7 +358,7 @@ export default function Portfolio() {
                     </div>
                     <h3 className="text-lg font-semibold text-foreground mb-3">Environment, Social & Governance (ESG)</h3>
                     <p className="text-muted-foreground text-sm leading-relaxed">
-                      Our ESG Rating Scorecard combines Bank Negara's CCPT for environmental metrics with EU-aligned social and governance assessments, ensuring global-standard compliance. Showcase your commitment to sustainability, attract ESG-conscious investors, and gain a competitive edge. Empower your business with actionable insights to drive resilience and long-term value.
+                      Our ESG Rating Scorecard combines Bank Negara's CCPT for environmental metrics with EU-aligned social and governance assessments, ensuring global-standard compliance.
                     </p>
                   </div>
                 </div>
@@ -357,7 +373,7 @@ export default function Portfolio() {
                     </div>
                     <h3 className="text-lg font-semibold text-foreground mb-3">Cybersecurity Training</h3>
                     <p className="text-muted-foreground text-sm leading-relaxed">
-                      In partnership with Cyber Ranges, Pilot offers advanced cybersecurity training to bolster organizational defenses. Using realistic simulations of real-world cyberattacks and cyber drills, the program identifies vulnerabilities and improves readiness. Trusted by the UN since 2017, it's a proven solution for national and regional cyber drills.
+                      In partnership with Cyber Ranges, Pilot offers advanced cybersecurity training using realistic simulations and cyber drills. Trusted by the UN since 2017.
                     </p>
                   </div>
                 </div>
@@ -372,7 +388,7 @@ export default function Portfolio() {
                     </div>
                     <h3 className="text-lg font-semibold text-foreground mb-3">Automated Financial Spreading</h3>
                     <p className="text-muted-foreground text-sm leading-relaxed">
-                      The Automated Financial Spreading module transforms raw financial data into customizable charts of accounts. Powered by a Large Language Model, it adapts to varied formats and provides multilingual translation, making it versatile and efficient for global financial reporting.
+                      Transforms raw financial data into customizable charts of accounts. Powered by LLM with multilingual translation for global financial reporting.
                     </p>
                   </div>
                 </div>
