@@ -70,7 +70,7 @@ export function Header() {
 
                   <Link
                 to={link.path}
-                className="relative text-lg leading-7 font-light tracking-wide text-white transition-colors duration-300 hover:text-white/80">
+                className="relative text-lg leading-7 font-light tracking-wide transition-colors duration-300 text-inherit">
 
                     {link.name}
                     {location.pathname === link.path &&
