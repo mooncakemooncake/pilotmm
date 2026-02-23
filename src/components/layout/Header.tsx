@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { photographerInfo } from '@/data/photographer';
 import { cn } from '@/lib/utils';
+import logoPyramid from '@/assets/logo-pyramid.png';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -16,17 +17,11 @@ const navLinks = [
   { name: 'Contact', path: '/contact' },
 ];
 
-/**
- * Main header component with scroll-aware styling
- * Transparent on hero section, solid when scrolled
- * Mobile responsive with hamburger menu
- */
 export function Header() {
   const location = useLocation();
   const { isScrolled } = useScrollPosition();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
-  // Header is transparent only on homepage hero when not scrolled
   const isTransparent = location.pathname === '/' && !isScrolled;
 
   return (
@@ -47,19 +42,21 @@ export function Header() {
           <Link
             to="/"
             className={cn(
-              'text-lg font-light tracking-widest transition-all duration-300',
+              'flex items-center gap-2 text-lg font-light tracking-widest transition-all duration-300',
               isTransparent
                 ? 'text-white hover:text-white/80'
                 : 'text-foreground hover:text-foreground/80'
             )}
           >
-            <motion.span
+            <motion.div
+              className="flex items-center gap-2"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              {photographerInfo.name.toUpperCase()}
-            </motion.span>
+              <img src={logoPyramid} alt="Pilot Logo" className="w-8 h-8 object-contain" />
+              <span>{photographerInfo.name.toUpperCase()}</span>
+            </motion.div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -76,7 +73,6 @@ export function Header() {
                     className="relative text-lg leading-7 font-light tracking-wide text-white transition-colors duration-300 hover:text-white/80"
                   >
                     {link.name}
-                    {/* Active underline */}
                     {location.pathname === link.path && (
                       <motion.div
                         layoutId="activeNav"
