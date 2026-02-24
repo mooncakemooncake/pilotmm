@@ -13,8 +13,7 @@ import logoPyramid from '@/assets/logo-pyramid.png';
 const navLinks = [
 { name: 'Home', path: '/' },
 { name: 'Products & Services', path: '/portfolio' },
-{ name: 'About', path: '/about' },
-{ name: 'Contact', path: '/contact' }];
+{ name: 'About', path: '/about' }];
 
 
 export function Header() {
