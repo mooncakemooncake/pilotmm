@@ -6,7 +6,6 @@ import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import logoPyramid from '@/assets/logo-pyramid.png';
 import obligorImg from '@/assets/obligor-information.png';
 import projectionVideo from '@/assets/projection.mp4';
 import finanalyticsImg from '@/assets/finanalytiks.png';
@@ -111,9 +110,10 @@ function ModulePopup({ module, onClose }: { module: ModuleInfo; onClose: () => v
       onClick={onClose}
     >
       <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
+        initial={{ y: 40, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 40, opacity: 0 }}
+        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
         className="bg-card rounded-2xl border border-border shadow-xl max-w-4xl w-full max-h-[85vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
@@ -155,9 +155,10 @@ function ScorecardPanel({ onClose }: { onClose: () => void }) {
       onClick={onClose}
     >
       <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
+        initial={{ y: 40, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 40, opacity: 0 }}
+        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
         className="bg-card rounded-2xl border border-border shadow-xl max-w-6xl w-full max-h-[85vh] overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
@@ -168,7 +169,6 @@ function ScorecardPanel({ onClose }: { onClose: () => void }) {
           </button>
         </div>
         <div className="flex min-h-[500px]">
-          {/* Left - collapsible list */}
           <div className="w-64 shrink-0 border-r border-border overflow-y-auto bg-secondary/30">
             {scorecardSubsections.map((s, i) => (
               <button
@@ -184,7 +184,6 @@ function ScorecardPanel({ onClose }: { onClose: () => void }) {
               </button>
             ))}
           </div>
-          {/* Right - content */}
           <div className="flex-1 overflow-y-auto p-6">
             <AnimatePresence mode="wait">
               <motion.div
@@ -243,19 +242,22 @@ function HorizontalModuleScroll({ modules, onSelect }: { modules: ModuleInfo[]; 
   return (
     <div ref={sectionRef} className="overflow-hidden">
       <div ref={trackRef} className="flex gap-6 w-max py-4">
-        {modules.map((m) => (
+        {modules.map((m, index) => (
           <button
             key={m.key}
             onClick={() => onSelect(m)}
-            className="shrink-0 w-[280px] md:w-[320px] rounded-2xl border border-border bg-card p-6 text-left hover:shadow-lg hover:border-primary/30 transition-all group"
+            className="group shrink-0 w-[280px] md:w-[320px] h-[220px] rounded-2xl border border-border bg-foreground text-background relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-[1.03]"
           >
+            {/* Background preview image (visible on hover) */}
             {m.media && (
-              <div className="w-full h-40 rounded-lg overflow-hidden mb-4 bg-muted">
-                <img src={m.media} alt={m.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300">
+                <img src={m.media} alt="" className="w-full h-full object-cover" />
               </div>
             )}
-            <h4 className="text-base font-semibold text-foreground mb-2">{m.title}</h4>
-            <p className="text-muted-foreground text-sm line-clamp-2">{m.description}</p>
+            <div className="relative z-10 flex flex-col items-start justify-between h-full p-6">
+              <span className="text-4xl font-bold opacity-20">{String(index + 1).padStart(2, '0')}</span>
+              <h4 className="text-lg font-semibold tracking-wide">{m.title}</h4>
+            </div>
           </button>
         ))}
       </div>
@@ -288,10 +290,10 @@ export default function Portfolio() {
         </section>
 
         {/* CPRS Section - Big Hero Title + Horizontal Scroll */}
-        <section className="py-20 md:py-28 px-6 lg:px-8">
+        <section className="py-16 md:py-20 px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
             <ScrollReveal>
-              <div className="mb-16">
+              <div className="mb-10">
                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-foreground leading-tight">
                   Credit Predix —<br />
                   <span className="text-muted-foreground font-light">
@@ -373,7 +375,7 @@ export default function Portfolio() {
 
             <div className="grid md:grid-cols-3 gap-8">
               <ScrollReveal>
-                <div className="rounded-2xl border border-border bg-card overflow-hidden h-full">
+                <div className="rounded-2xl border border-border bg-card overflow-hidden h-full transition-transform duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
                   <img src={esgImg} alt="ESG" className="w-full object-contain" />
                   <div className="p-8">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
@@ -388,7 +390,7 @@ export default function Portfolio() {
               </ScrollReveal>
 
               <ScrollReveal delay={0.1}>
-                <div className="rounded-2xl border border-border bg-card overflow-hidden h-full">
+                <div className="rounded-2xl border border-border bg-card overflow-hidden h-full transition-transform duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
                   <img src={cybersecurityImg} alt="Cybersecurity Training" className="w-full object-contain" />
                   <div className="p-8">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
@@ -403,7 +405,7 @@ export default function Portfolio() {
               </ScrollReveal>
 
               <ScrollReveal delay={0.2}>
-                <div className="rounded-2xl border border-border bg-card overflow-hidden h-full">
+                <div className="rounded-2xl border border-border bg-card overflow-hidden h-full transition-transform duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
                   <img src={afsImg} alt="Automated Financial Spreading" className="w-full object-contain" />
                   <div className="p-8">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
