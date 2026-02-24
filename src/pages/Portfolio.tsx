@@ -2,7 +2,7 @@ import { SEOHead } from '@/components/seo/SEOHead';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Leaf, Shield, FileSpreadsheet, X } from 'lucide-react';
-import { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import { useState, useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -93,13 +93,13 @@ const scorecardSubsections: ScorecardSub[] = [
   { title: "Portfolio Stress Testing", description: "Assess portfolio resilience under what-if scenarios. Stress test by industry, business unit, team, or country.", images: [stressTestingImg] },
 ];
 
-/* ─── Module Popup ─── */
+/* ─── Module Popup (non-scorecard) ─── */
 function ModulePopup({ module, onClose }: { module: ModuleInfo; onClose: () => void }) {
   const isScorecard = module.key === 'scorecard';
+  if (isScorecard) return <ScorecardPanel onClose={onClose} />;
 
-  if (isScorecard) {
-    return <ScorecardPanel onClose={onClose} />;
-  }
+  // Determine layout: alternate text-left/image-right vs image-left/text-right
+  const isFinanalytics = module.key === 'finanalytics';
 
   return (
     <motion.div
@@ -114,7 +114,7 @@ function ModulePopup({ module, onClose }: { module: ModuleInfo; onClose: () => v
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 40, opacity: 0 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="bg-card rounded-2xl border border-border shadow-xl max-w-4xl w-full max-h-[85vh] overflow-y-auto"
+        className="bg-card rounded-2xl border border-border shadow-xl max-w-5xl w-full max-h-[85vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between p-6 border-b border-border">
@@ -123,17 +123,50 @@ function ModulePopup({ module, onClose }: { module: ModuleInfo; onClose: () => v
             <X className="w-5 h-5" />
           </button>
         </div>
-        <div className="p-6 space-y-6">
-          <p className="text-muted-foreground leading-relaxed">{module.description}</p>
-          {module.key === 'finanalytics' && module.extraMedia && (
-            <div className="space-y-4">
-              <h4 className="text-lg font-semibold text-foreground">Projection Module</h4>
-              <video src={module.extraMedia} autoPlay loop muted playsInline className="w-full rounded-xl border border-border" />
-              <h4 className="text-lg font-semibold text-foreground mt-6">Historical Financial</h4>
+        <div className="p-6 space-y-8">
+          {isFinanalytics ? (
+            <>
+              {/* Projection: text left, video right */}
+              <div className="flex flex-col md:flex-row gap-6 items-start">
+                <div className="md:w-1/2 space-y-3">
+                  <h4 className="text-lg font-semibold text-foreground">Projection Module</h4>
+                  <p className="text-muted-foreground leading-relaxed text-sm">
+                    Enables financial projections with configurable assumption drivers, instantly reflecting results as assumptions are entered, allowing users to simulate various scenarios and conduct stress testing of financials effortlessly.
+                  </p>
+                </div>
+                <div className="md:w-1/2">
+                  {module.extraMedia && (
+                    <video src={module.extraMedia} autoPlay loop muted playsInline className="w-full rounded-xl border border-border" />
+                  )}
+                </div>
+              </div>
+              {/* Historical: image left, text right */}
+              <div className="flex flex-col md:flex-row-reverse gap-6 items-start">
+                <div className="md:w-1/2 space-y-3">
+                  <h4 className="text-lg font-semibold text-foreground">Historical Module</h4>
+                  <p className="text-muted-foreground leading-relaxed text-sm">
+                    Highly configurable chart of accounts that can be tailored to specific industries, allowing analysis to be done easily. Financial ratios are automatically calculated to reduce human error.
+                  </p>
+                </div>
+                <div className="md:w-1/2">
+                  {module.media && (
+                    <img src={module.media} alt="Historical Financial" className="w-full rounded-xl border border-border" />
+                  )}
+                </div>
+              </div>
+            </>
+          ) : (
+            /* Default: text left, image right */
+            <div className="flex flex-col md:flex-row gap-6 items-start">
+              <div className="md:w-1/2">
+                <p className="text-muted-foreground leading-relaxed">{module.description}</p>
+              </div>
+              <div className="md:w-1/2">
+                {module.media && (
+                  <img src={module.media} alt={module.title} className="w-full rounded-xl border border-border" />
+                )}
+              </div>
             </div>
-          )}
-          {module.media && (
-            <img src={module.media} alt={module.title} className="w-full rounded-xl border border-border" />
           )}
         </div>
       </motion.div>
@@ -159,16 +192,16 @@ function ScorecardPanel({ onClose }: { onClose: () => void }) {
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 40, opacity: 0 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="bg-card rounded-2xl border border-border shadow-xl max-w-6xl w-full max-h-[85vh] overflow-hidden"
+        className="bg-card rounded-2xl border border-border shadow-xl max-w-6xl w-full h-[85vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between p-6 border-b border-border">
+        <div className="flex items-center justify-between p-6 border-b border-border shrink-0">
           <h3 className="text-2xl font-semibold text-foreground">Scorecard & Risk Rule Module</h3>
           <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
-        <div className="flex min-h-[500px]">
+        <div className="flex flex-1 min-h-0">
           <div className="w-64 shrink-0 border-r border-border overflow-y-auto bg-secondary/30">
             {scorecardSubsections.map((s, i) => (
               <button
@@ -208,7 +241,7 @@ function ScorecardPanel({ onClose }: { onClose: () => void }) {
   );
 }
 
-/* ─── GSAP Horizontal Scroll on Vertical Scroll ─── */
+/* ─── GSAP Horizontal Scroll ─── */
 function HorizontalModuleScroll({ modules, onSelect }: { modules: ModuleInfo[]; onSelect: (m: ModuleInfo) => void }) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -228,6 +261,7 @@ function HorizontalModuleScroll({ modules, onSelect }: { modules: ModuleInfo[]; 
         ease: 'none',
         scrollTrigger: {
           trigger: section,
+          start: 'top 80%',
           pin: true,
           scrub: 1,
           end: () => `+=${totalScrollWidth}`,
@@ -246,7 +280,7 @@ function HorizontalModuleScroll({ modules, onSelect }: { modules: ModuleInfo[]; 
           <button
             key={m.key}
             onClick={() => onSelect(m)}
-            className="group shrink-0 w-[280px] md:w-[320px] h-[220px] rounded-2xl border border-border bg-foreground text-background relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-[1.03]"
+            className="group shrink-0 w-[300px] md:w-[360px] h-[260px] rounded-2xl border border-border bg-dark-section text-dark-section-foreground relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-[1.03]"
           >
             {/* Background preview image (visible on hover) */}
             {m.media && (
@@ -255,8 +289,8 @@ function HorizontalModuleScroll({ modules, onSelect }: { modules: ModuleInfo[]; 
               </div>
             )}
             <div className="relative z-10 flex flex-col items-start justify-between h-full p-6">
-              <span className="text-4xl font-bold opacity-20">{String(index + 1).padStart(2, '0')}</span>
-              <h4 className="text-lg font-semibold tracking-wide">{m.title}</h4>
+              <span className="text-6xl font-black opacity-20 font-serif">{String(index + 1).padStart(2, '0')}</span>
+              <h4 className="text-xl md:text-2xl font-bold tracking-wide font-serif">{m.title}</h4>
             </div>
           </button>
         ))}
@@ -289,7 +323,7 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* CPRS Section - Big Hero Title + Horizontal Scroll */}
+        {/* CPRS Section */}
         <section className="py-16 md:py-20 px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
             <ScrollReveal>
@@ -317,12 +351,12 @@ export default function Portfolio() {
         </AnimatePresence>
 
         {/* Model Development & Validation */}
-        <section className="py-20 md:py-28 px-6 lg:px-8 bg-secondary/30">
+        <section className="py-20 md:py-28 px-6 lg:px-8 bg-dark-section text-dark-section-foreground">
           <div className="max-w-7xl mx-auto">
             <ScrollReveal>
               <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">Model Development & Validation</h2>
-                <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">Model Development & Validation</h2>
+                <p className="mt-4 text-lg text-white/60 max-w-3xl mx-auto">
                   Our software automates the processes of model development and validation, significantly reducing the time required while enhancing the reliability and accuracy of the models.
                 </p>
               </div>
@@ -331,13 +365,13 @@ export default function Portfolio() {
             <ScrollReveal>
               <div className="flex flex-col md:flex-row items-center gap-10 mb-20">
                 <div className="md:w-1/2">
-                  <h3 className="text-2xl font-semibold text-foreground mb-4">Model Development</h3>
-                  <p className="text-muted-foreground leading-relaxed">
+                  <h3 className="text-2xl font-semibold mb-4">Model Development</h3>
+                  <p className="text-white/70 leading-relaxed">
                     Our model development service offers a statistical approach with a supplement of a judgmental approach to develop a state-of-the-art credit risk model that accurately rates the risk of a client. Our software automates the process of model development. The pipeline ensures a swift and seamless cycle from development to deployment.
                   </p>
                 </div>
                 <div className="md:w-1/2">
-                  <img src={modelDevImg} alt="Model Development" className="w-full rounded-xl border border-border shadow-sm" />
+                  <img src={modelDevImg} alt="Model Development" className="w-full rounded-xl border border-white/10 shadow-sm" />
                 </div>
               </div>
             </ScrollReveal>
@@ -345,9 +379,9 @@ export default function Portfolio() {
             <ScrollReveal>
               <div className="flex flex-col md:flex-row-reverse items-center gap-10">
                 <div className="md:w-1/2">
-                  <h3 className="text-2xl font-semibold text-foreground mb-4">Model Validation</h3>
-                  <div className="text-muted-foreground leading-relaxed space-y-3">
-                    <p className="font-medium text-foreground">Features of Model Validation:</p>
+                  <h3 className="text-2xl font-semibold mb-4">Model Validation</h3>
+                  <div className="text-white/70 leading-relaxed space-y-3">
+                    <p className="font-medium text-white">Features of Model Validation:</p>
                     <ul className="space-y-2 list-disc pl-5">
                       <li><strong>Model Validation Process</strong> — Ensures models are methodologically robust, compliant with regulations set by the Basel Committee on Banking Supervision (BCBS), and aligned with internal standards.</li>
                       <li><strong>Monitoring Framework</strong> — Guarantees reliability of models through effective monitoring.</li>
@@ -357,7 +391,7 @@ export default function Portfolio() {
                   </div>
                 </div>
                 <div className="md:w-1/2">
-                  <img src={modelValImg} alt="Model Validation" className="w-full rounded-xl border border-border shadow-sm" />
+                  <img src={modelValImg} alt="Model Validation" className="w-full rounded-xl border border-white/10 shadow-sm" />
                 </div>
               </div>
             </ScrollReveal>
