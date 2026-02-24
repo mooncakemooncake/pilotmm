@@ -1,8 +1,12 @@
 import { motion } from 'framer-motion';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { Target, Eye } from 'lucide-react';
+import { Eye, MapPin } from 'lucide-react';
+import { useState } from 'react';
 import logoPyramid from '@/assets/logo-pyramid.png';
+import visionImg from '@/assets/vision-mission.jpg';
+import petronasImg from '@/assets/petronas-towers.jpg';
+import merlionImg from '@/assets/merlion-park.jpg';
 
 import agrobankLogo from '@/assets/clients/agrobank.jpg';
 import bsnLogo from '@/assets/clients/bsn.png';
@@ -24,8 +28,73 @@ const clients = [
   { name: 'OCBC', logo: ocbcLogo },
 ];
 
+const locations = [
+  {
+    country: 'Malaysia',
+    image: petronasImg,
+    address: [
+      'PILOT MULTIMEDIA (M) SDN BHD (582627-V)',
+      'A-29-2 Menara UOA Bangsar,',
+      'No.5, Jalan Bangsar Utama 1,',
+      '59000 Kuala Lumpur, Malaysia',
+    ],
+  },
+  {
+    country: 'Singapore',
+    image: merlionImg,
+    address: [
+      'PILOT MULTIMEDIA PTE. LTD.',
+      '160 Robinson Road',
+      '#10-09 SBF Center',
+      'Singapore (068914)',
+    ],
+  },
+];
+
+function LocationCard({ location }: { location: typeof locations[0] }) {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <motion.div
+      className="relative rounded-2xl overflow-hidden cursor-pointer group"
+      style={{ height: expanded ? 360 : 200 }}
+      animate={{ height: expanded ? 360 : 200 }}
+      transition={{ duration: 0.4, ease: 'easeInOut' }}
+      onClick={() => setExpanded(!expanded)}
+      whileHover={{ scale: 1.02 }}
+    >
+      <img
+        src={location.image}
+        alt={location.country}
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
+      <div className="relative z-10 flex flex-col justify-end h-full p-6 text-white">
+        <div className="flex items-center gap-2 mb-2">
+          <MapPin className="w-5 h-5 text-primary" />
+          <h3 className="text-2xl font-bold">{location.country}</h3>
+        </div>
+        <motion.div
+          initial={false}
+          animate={{ opacity: expanded ? 1 : 0, height: expanded ? 'auto' : 0 }}
+          transition={{ duration: 0.3 }}
+          className="overflow-hidden"
+        >
+          <div className="space-y-1 text-sm text-white/90 mt-3">
+            {location.address.map((line, i) => (
+              <p key={i} className={i === 0 ? 'font-semibold' : ''}>{line}</p>
+            ))}
+          </div>
+        </motion.div>
+        {!expanded && (
+          <p className="text-xs text-white/60 mt-2">Click to expand</p>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
 export default function About() {
-  // Double the clients array for seamless infinite scroll
   const scrollClients = [...clients, ...clients];
 
   return (
@@ -44,7 +113,7 @@ export default function About() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <img src={logoPyramid} alt="Pilot Logo" className="w-16 h-16 mx-auto mb-6 object-contain" />
+              <img src={logoPyramid} alt="Pilot Logo" className="h-16 mx-auto mb-6 object-contain" />
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-light tracking-wide mb-4">
                 About Us
               </h1>
@@ -80,29 +149,32 @@ export default function About() {
         </section>
 
         {/* Vision & Mission */}
-        <section className="py-20 md:py-28 px-6 lg:px-8 bg-secondary/30">
+        <section className="py-20 md:py-28 px-6 lg:px-8 bg-dark-section text-dark-section-foreground">
           <div className="max-w-5xl mx-auto">
             <ScrollReveal>
               <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">
+                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">
                   Our Vision & Mission
                 </h2>
               </div>
             </ScrollReveal>
 
             <ScrollReveal delay={0.1}>
-              <div className="bg-card border border-border rounded-2xl p-8 md:p-12">
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <Eye className="w-6 h-6 text-primary" />
+              <div className="flex flex-col md:flex-row gap-8 items-center">
+                <div className="md:w-1/2 space-y-4">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
+                      <Eye className="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-semibold">Beyond Software & Integration</h3>
                   </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2">Beyond Software & Integration</h3>
-                  </div>
+                  <p className="text-white/70 leading-relaxed text-base md:text-lg">
+                    We differentiate ourselves by acting as not just a software vendor or solution integrator, but as a "content" provider. We provide the intellectual property — the scorecards, models, data schemas, and methodologies — that makes a risk platform useful and effective for your business.
+                  </p>
                 </div>
-                <p className="text-muted-foreground leading-relaxed text-base md:text-lg">
-                  We differentiate ourselves by acting as not just a software vendor or solution integrator, but as a "content" provider. We provide the intellectual property — the scorecards, models, data schemas, and methodologies — that makes a risk platform useful and effective for your business.
-                </p>
+                <div className="md:w-1/2">
+                  <img src={visionImg} alt="Vision & Mission" className="w-full rounded-2xl border border-white/10 shadow-lg" />
+                </div>
               </div>
             </ScrollReveal>
           </div>
@@ -122,13 +194,12 @@ export default function About() {
               </div>
             </ScrollReveal>
 
-            {/* Infinite scrolling logos */}
             <div className="relative overflow-hidden">
               <div className="flex animate-scroll-left gap-12 items-center w-max">
                 {scrollClients.map((client, i) => (
                   <div
                     key={`${client.name}-${i}`}
-                    className="shrink-0 h-16 md:h-20 w-40 md:w-48 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                    className="shrink-0 h-16 md:h-20 w-40 md:w-48 flex items-center justify-center transition-all duration-300 opacity-70 hover:opacity-100"
                   >
                     <img
                       src={client.logo}
@@ -138,6 +209,27 @@ export default function About() {
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* We are located at */}
+        <section className="py-20 md:py-28 px-6 lg:px-8 bg-secondary/30">
+          <div className="max-w-5xl mx-auto">
+            <ScrollReveal>
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">
+                  We are located at
+                </h2>
+              </div>
+            </ScrollReveal>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {locations.map((loc) => (
+                <ScrollReveal key={loc.country} delay={loc.country === 'Singapore' ? 0.1 : 0}>
+                  <LocationCard location={loc} />
+                </ScrollReveal>
+              ))}
             </div>
           </div>
         </section>

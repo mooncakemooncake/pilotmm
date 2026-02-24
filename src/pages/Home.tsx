@@ -17,7 +17,7 @@ const benefits = [
     icon: Settings,
     title: 'Flexibility and Self-Autonomy',
     description:
-      'The philosophy of Credit Predix is that it allows configuration of almost all aspects of the software. Rating models and financial templates are configurable by the users in minutes. Wide-ranging and complex models can be rapidly deployed by relationship managers and credit evaluators without external vendors\' assistance. The essence of Credit Predix is customization and flexibility.',
+      "The philosophy of Credit Predix is that it allows configuration of almost all aspects of the software. Rating models and financial templates are configurable by the users in minutes. Wide-ranging and complex models can be rapidly deployed by relationship managers and credit evaluators without external vendors' assistance. The essence of Credit Predix is customization and flexibility.",
   },
   {
     icon: Lock,
@@ -151,28 +151,25 @@ export default function Home() {
         </section>
 
         {/* Benefits Section */}
-        <section className="py-24 md:py-32 px-6 lg:px-8 border-t border-border">
+        <section className="py-24 md:py-32 px-6 lg:px-8 bg-dark-section text-dark-section-foreground">
           <div className="max-w-6xl mx-auto">
             <ScrollReveal>
               <div className="text-center mb-16 space-y-4">
-                <h2 className="text-3xl md:text-4xl font-light tracking-wide text-foreground">
+                <h2 className="text-3xl md:text-4xl font-light tracking-wide">
                   Why Choose PilotMultimedia?
                 </h2>
-                <p className="text-lg text-muted-foreground font-light tracking-wide">
-                  Why Credit Predix stands apart
-                </p>
               </div>
             </ScrollReveal>
 
             <div className="grid md:grid-cols-3 gap-8">
               {benefits.map((benefit, index) => (
                 <ScrollReveal key={benefit.title} delay={index * 0.15}>
-                  <div className="p-8 rounded-lg border border-border bg-card h-full space-y-4">
+                  <div className="p-8 rounded-lg border border-white/10 bg-white/5 h-full space-y-4">
                     <benefit.icon className="size-8 text-primary" />
-                    <h3 className="text-lg font-medium text-foreground tracking-wide">
+                    <h3 className="text-lg font-medium tracking-wide">
                       {benefit.title}
                     </h3>
-                    <p className="text-muted-foreground leading-relaxed text-sm">
+                    <p className="text-white/70 leading-relaxed text-sm">
                       {benefit.description}
                     </p>
                   </div>
