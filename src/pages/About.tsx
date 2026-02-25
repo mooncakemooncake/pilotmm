@@ -4,9 +4,10 @@ import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Eye, MapPin } from 'lucide-react';
 import { useState } from 'react';
 import logoPyramid from '@/assets/logo-pyramid.png';
-import visionImg from '@/assets/vision-mission.jpg';
+import visionImg from '@/assets/vision-lightbulb.jpg';
 import petronasImg from '@/assets/petronas-towers.jpg';
 import merlionImg from '@/assets/merlion-park.jpg';
+import ourStoryImg from '@/assets/our-story.jpg';
 
 import agrobankLogo from '@/assets/clients/agrobank.jpg';
 import bsnLogo from '@/assets/clients/bsn.png';
@@ -51,46 +52,68 @@ const locations = [
   },
 ];
 
-function LocationCard({ location }: { location: typeof locations[0] }) {
-  const [expanded, setExpanded] = useState(false);
+/* Location cards that expand on hover like the reference image */
+function LocationCards() {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <motion.div
-      className="relative rounded-2xl overflow-hidden cursor-pointer group"
-      style={{ height: expanded ? 360 : 200 }}
-      animate={{ height: expanded ? 360 : 200 }}
-      transition={{ duration: 0.4, ease: 'easeInOut' }}
-      onClick={() => setExpanded(!expanded)}
-      whileHover={{ scale: 1.02 }}
-    >
-      <img
-        src={location.image}
-        alt={location.country}
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
-      <div className="relative z-10 flex flex-col justify-end h-full p-6 text-white">
-        <div className="flex items-center gap-2 mb-2">
-          <MapPin className="w-5 h-5 text-primary" />
-          <h3 className="text-2xl font-bold">{location.country}</h3>
-        </div>
-        <motion.div
-          initial={false}
-          animate={{ opacity: expanded ? 1 : 0, height: expanded ? 'auto' : 0 }}
-          transition={{ duration: 0.3 }}
-          className="overflow-hidden"
-        >
-          <div className="space-y-1 text-sm text-white/90 mt-3">
-            {location.address.map((line, i) => (
-              <p key={i} className={i === 0 ? 'font-semibold' : ''}>{line}</p>
-            ))}
-          </div>
-        </motion.div>
-        {!expanded && (
-          <p className="text-xs text-white/60 mt-2">Click to expand</p>
-        )}
-      </div>
-    </motion.div>
+    <div className="flex gap-3 h-[400px] md:h-[500px]">
+      {locations.map((loc, index) => {
+        const isHovered = hoveredIndex === index;
+        const hasHover = hoveredIndex !== null;
+
+        return (
+          <motion.div
+            key={loc.country}
+            className="relative rounded-2xl overflow-hidden cursor-pointer"
+            style={{ flex: isHovered ? 4 : hasHover ? 1 : 1 }}
+            animate={{ flex: isHovered ? 4 : hasHover ? 1 : 1 }}
+            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
+            <img
+              src={loc.image}
+              alt={loc.country}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700"
+              style={{ transform: isHovered ? 'scale(1.05)' : 'scale(1)' }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
+
+            {/* Collapsed state: vertical text */}
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center"
+              animate={{ opacity: isHovered ? 0 : 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <h3
+                className="text-white text-2xl font-bold tracking-widest uppercase"
+                style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+              >
+                {loc.country}
+              </h3>
+            </motion.div>
+
+            {/* Expanded state: full info */}
+            <motion.div
+              className="absolute inset-0 flex flex-col justify-end p-8"
+              animate={{ opacity: isHovered ? 1 : 0 }}
+              transition={{ duration: 0.3, delay: isHovered ? 0.15 : 0 }}
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <MapPin className="w-5 h-5 text-primary" />
+                <h3 className="text-3xl font-bold text-white">{loc.country}</h3>
+              </div>
+              <div className="space-y-1 text-sm text-white/90">
+                {loc.address.map((line, i) => (
+                  <p key={i} className={i === 0 ? 'font-semibold text-base' : ''}>{line}</p>
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+        );
+      })}
+    </div>
   );
 }
 
@@ -126,35 +149,48 @@ export default function About() {
 
         {/* Company Introduction */}
         <section className="py-20 md:py-28 px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <ScrollReveal>
-              <div className="space-y-6">
-                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">
-                  Our Story
-                </h2>
-                <div className="text-muted-foreground leading-relaxed space-y-5 text-base md:text-lg">
-                  <p>
-                    Pilot Multimedia Pte Ltd, a company incorporated in Singapore, was established in 2013. PILOT has developed a Credit Scoring Solution/Risk Management product which has been successfully implemented in a number of financial institutions; including OCBC Bank which is incorporated and domiciled in Singapore.
-                  </p>
-                  <p>
-                    Pilot Singapore is also related to Pilot Multimedia (M) Sdn Bhd (PILOT), which is a Malaysian private limited company. PILOT was founded in the year 1992 and has achieved Multimedia Supercorridor Status (MSC) in 2002 for the development of Risk Management Solutions. This status accords PILOT tax-free status for 10 years, and the Malaysian government also actively provides support to MSC companies in terms of R&D, marketing, and other financial incentives.
-                  </p>
-                  <p>
-                    In the process, PILOT has developed a Credit Scoring Solution/Risk Management product that has been successfully implemented in a number of financial institutions. 'Risk Predix' is our specific Risk Management product for the Financial Services sector. Our homegrown credit scoring solution also allows expansion into non-financial institution industries, as 'Trade Credit' is also provided by large MNCs and wholesalers that sell on credit terms.
-                  </p>
+              <div className="flex flex-col md:flex-row gap-10 items-center">
+                <div className="md:w-1/2 space-y-6">
+                  <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">
+                    Our Story
+                  </h2>
+                  <div className="text-muted-foreground leading-relaxed space-y-5 text-base">
+                    <p>
+                      Pilot Multimedia Pte Ltd, a company incorporated in Singapore, was established in 2013. PILOT has developed a Credit Scoring Solution/Risk Management product which has been successfully implemented in a number of financial institutions; including OCBC Bank which is incorporated and domiciled in Singapore.
+                    </p>
+                    <p>
+                      Pilot Singapore is also related to Pilot Multimedia (M) Sdn Bhd (PILOT), which is a Malaysian private limited company. PILOT was founded in the year 1992 and has achieved Multimedia Supercorridor Status (MSC) in 2002 for the development of Risk Management Solutions.
+                    </p>
+                  </div>
                 </div>
+                <div className="md:w-1/2">
+                  <img src={ourStoryImg} alt="Our Story" className="w-full rounded-2xl border border-border shadow-lg" />
+                </div>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.1}>
+              <div className="mt-10 text-muted-foreground leading-relaxed space-y-5 text-base max-w-4xl">
+                <p>
+                  This status accords PILOT tax-free status for 10 years, and the Malaysian government also actively provides support to MSC companies in terms of R&D, marketing, and other financial incentives.
+                </p>
+                <p>
+                  In the process, PILOT has developed a Credit Scoring Solution/Risk Management product that has been successfully implemented in a number of financial institutions. 'Risk Predix' is our specific Risk Management product for the Financial Services sector. Our homegrown credit scoring solution also allows expansion into non-financial institution industries, as 'Trade Credit' is also provided by large MNCs and wholesalers that sell on credit terms.
+                </p>
               </div>
             </ScrollReveal>
           </div>
         </section>
 
-        {/* Vision & Mission */}
+        {/* Vision */}
         <section className="py-20 md:py-28 px-6 lg:px-8 bg-dark-section text-dark-section-foreground">
           <div className="max-w-5xl mx-auto">
             <ScrollReveal>
               <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">
-                  Our Vision & Mission
+                  Our Vision
                 </h2>
               </div>
             </ScrollReveal>
@@ -173,7 +209,7 @@ export default function About() {
                   </p>
                 </div>
                 <div className="md:w-1/2">
-                  <img src={visionImg} alt="Vision & Mission" className="w-full rounded-2xl border border-white/10 shadow-lg" />
+                  <img src={visionImg} alt="Our Vision" className="w-full rounded-2xl border border-primary/30 shadow-lg shadow-primary/10" />
                 </div>
               </div>
             </ScrollReveal>
@@ -214,23 +250,19 @@ export default function About() {
         </section>
 
         {/* We are located at */}
-        <section className="py-20 md:py-28 px-6 lg:px-8 bg-secondary/30">
+        <section className="py-20 md:py-28 px-6 lg:px-8 bg-dark-section text-dark-section-foreground">
           <div className="max-w-5xl mx-auto">
             <ScrollReveal>
               <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">
+                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">
                   We are located at
                 </h2>
               </div>
             </ScrollReveal>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              {locations.map((loc) => (
-                <ScrollReveal key={loc.country} delay={loc.country === 'Singapore' ? 0.1 : 0}>
-                  <LocationCard location={loc} />
-                </ScrollReveal>
-              ))}
-            </div>
+            <ScrollReveal delay={0.1}>
+              <LocationCards />
+            </ScrollReveal>
           </div>
         </section>
 
