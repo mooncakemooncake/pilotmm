@@ -76,13 +76,13 @@ export default function Home() {
               transition={{ duration: 1, ease: 'easeOut' }}
             >
               <motion.h1
-                className="text-5xl md:text-7xl lg:text-8xl font-black tracking-widest text-white"
-                style={{ WebkitTextStroke: '2px white', WebkitTextFillColor: 'transparent' }}
+                className="text-5xl md:text-7xl lg:text-8xl tracking-widest text-white"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.2 }}
               >
-                {photographerInfo.name.toUpperCase()}
+                <span className="font-black">PILOT</span>
+                <span className="font-light">MULTIMEDIA</span>
               </motion.h1>
 
               <motion.p
@@ -115,15 +115,15 @@ export default function Home() {
           </div>
         </section>
 
-        {/* The Challenge Section - Visual Cards */}
-        <section className="py-24 md:py-32 px-6 lg:px-8 bg-background">
+        {/* The Challenge Section */}
+        <section className="py-24 md:py-32 px-6 lg:px-8 bg-dark-section text-dark-section-foreground">
           <div className="max-w-6xl mx-auto">
             <ScrollReveal>
               <div className="text-center mb-16 space-y-4">
-                <h2 className="text-3xl md:text-4xl font-light tracking-wide text-foreground">
+                <h2 className="text-3xl md:text-4xl font-light tracking-wide">
                   The Challenge
                 </h2>
-                <p className="text-lg font-light text-muted-foreground max-w-2xl mx-auto">
+                <p className="text-lg font-light text-white/60 max-w-2xl mx-auto">
                   Financial institutions face the challenge of assessing and managing credit risk effectively.
                 </p>
               </div>
@@ -134,18 +134,18 @@ export default function Home() {
                 <ScrollReveal key={item.title} delay={index * 0.15}>
                   <div className={`p-8 rounded-2xl h-full space-y-4 border transition-all duration-300 ${
                     index === 2
-                      ? 'bg-primary/10 border-primary/30'
-                      : 'bg-card border-border'
+                      ? 'bg-primary/20 border-primary/40'
+                      : 'bg-white/5 border-white/10'
                   }`}>
                     <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${
-                      index === 2 ? 'bg-primary/20' : 'bg-muted'
+                      index === 2 ? 'bg-primary/30' : 'bg-white/10'
                     }`}>
-                      <item.icon className={`w-7 h-7 ${index === 2 ? 'text-primary' : 'text-muted-foreground'}`} />
+                      <item.icon className={`w-7 h-7 ${index === 2 ? 'text-primary' : 'text-white/70'}`} />
                     </div>
-                    <h3 className="text-xl font-semibold text-foreground tracking-wide">
+                    <h3 className={`text-xl font-semibold tracking-wide ${index === 2 ? 'text-primary' : 'text-white'}`}>
                       {item.title}
                     </h3>
-                    <p className="text-muted-foreground leading-relaxed text-sm">
+                    <p className="text-white/60 leading-relaxed text-sm">
                       {item.description}
                     </p>
                   </div>
@@ -156,11 +156,13 @@ export default function Home() {
         </section>
 
         {/* Benefits Section */}
-        <section className="py-24 md:py-32 px-6 lg:px-8 bg-dark-section text-dark-section-foreground">
-          <div className="max-w-6xl mx-auto">
+        <section className="py-24 md:py-32 px-6 lg:px-8 bg-background relative overflow-hidden">
+          {/* Purple accent */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="max-w-6xl mx-auto relative">
             <ScrollReveal>
               <div className="text-center mb-16 space-y-4">
-                <h2 className="text-3xl md:text-4xl font-light tracking-wide">
+                <h2 className="text-3xl md:text-4xl font-light tracking-wide text-foreground">
                   Why Choose PilotMultimedia?
                 </h2>
               </div>
@@ -170,15 +172,15 @@ export default function Home() {
               {benefits.map((benefit, index) => (
                 <ScrollReveal key={benefit.title} delay={index * 0.15}>
                   <motion.div
-                    className="p-8 rounded-lg border border-white/10 bg-white/5 h-full space-y-4 cursor-pointer"
+                    className="p-8 rounded-lg border border-border bg-card h-full space-y-4 cursor-pointer shadow-sm"
                     whileHover={{ scale: 1.05, y: -8 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                   >
                     <benefit.icon className="size-8 text-primary" />
-                    <h3 className="text-lg font-medium tracking-wide">
+                    <h3 className="text-lg font-medium tracking-wide text-foreground">
                       {benefit.title}
                     </h3>
-                    <p className="text-white/70 leading-relaxed text-sm">
+                    <p className="text-muted-foreground leading-relaxed text-sm">
                       {benefit.description}
                     </p>
                   </motion.div>

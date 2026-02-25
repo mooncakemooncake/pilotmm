@@ -3,11 +3,10 @@ import { SEOHead } from '@/components/seo/SEOHead';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Eye, MapPin } from 'lucide-react';
 import { useState } from 'react';
-import logoPyramid from '@/assets/logo-pyramid.png';
-import visionImg from '@/assets/vision-lightbulb.jpg';
+import visionGif from '@/assets/vision-lightbulb.gif';
 import petronasImg from '@/assets/petronas-towers.jpg';
 import merlionImg from '@/assets/merlion-park.jpg';
-import ourStoryImg from '@/assets/our-story.jpg';
+
 
 import agrobankLogo from '@/assets/clients/agrobank.jpg';
 import bsnLogo from '@/assets/clients/bsn.png';
@@ -129,14 +128,16 @@ export default function About() {
 
       <div className="min-h-screen">
         {/* Hero */}
-        <section className="py-24 md:py-32 px-6 lg:px-8 border-b border-border">
-          <div className="max-w-4xl mx-auto text-center space-y-6">
+        <section className="py-24 md:py-32 px-6 lg:px-8 border-b border-border relative overflow-hidden">
+          {/* Purple accent blob */}
+          <div className="absolute -top-32 -right-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
+          <div className="max-w-4xl mx-auto text-center space-y-6 relative">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <img src={logoPyramid} alt="Pilot Logo" className="h-16 mx-auto mb-6 object-contain" />
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-light tracking-wide mb-4">
                 About Us
               </h1>
@@ -151,22 +152,20 @@ export default function About() {
         <section className="py-20 md:py-28 px-6 lg:px-8">
           <div className="max-w-6xl mx-auto">
             <ScrollReveal>
-              <div className="flex flex-col md:flex-row gap-10 items-center">
-                <div className="md:w-1/2 space-y-6">
+              <div className="space-y-6">
+                <div className="flex items-center gap-4 mb-2">
+                  <div className="w-1 h-12 bg-primary rounded-full" />
                   <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">
                     Our Story
                   </h2>
-                  <div className="text-muted-foreground leading-relaxed space-y-5 text-base">
-                    <p>
-                      Pilot Multimedia Pte Ltd, a company incorporated in Singapore, was established in 2013. PILOT has developed a Credit Scoring Solution/Risk Management product which has been successfully implemented in a number of financial institutions; including OCBC Bank which is incorporated and domiciled in Singapore.
-                    </p>
-                    <p>
-                      Pilot Singapore is also related to Pilot Multimedia (M) Sdn Bhd (PILOT), which is a Malaysian private limited company. PILOT was founded in the year 1992 and has achieved Multimedia Supercorridor Status (MSC) in 2002 for the development of Risk Management Solutions.
-                    </p>
-                  </div>
                 </div>
-                <div className="md:w-1/2">
-                  <img src={ourStoryImg} alt="Our Story" className="w-full rounded-2xl border border-border shadow-lg" />
+                <div className="text-muted-foreground leading-relaxed space-y-5 text-base md:text-lg md:columns-2 md:gap-10">
+                  <p>
+                    Pilot Multimedia Pte Ltd, a company incorporated in Singapore, was established in 2013. PILOT has developed a Credit Scoring Solution/Risk Management product which has been successfully implemented in a number of financial institutions; including OCBC Bank which is incorporated and domiciled in Singapore.
+                  </p>
+                  <p>
+                    Pilot Singapore is also related to Pilot Multimedia (M) Sdn Bhd (PILOT), which is a Malaysian private limited company. PILOT was founded in the year 1992 and has achieved Multimedia Supercorridor Status (MSC) in 2002 for the development of Risk Management Solutions.
+                  </p>
                 </div>
               </div>
             </ScrollReveal>
@@ -208,8 +207,8 @@ export default function About() {
                     We differentiate ourselves by acting as not just a software vendor or solution integrator, but as a "content" provider. We provide the intellectual property — the scorecards, models, data schemas, and methodologies — that makes a risk platform useful and effective for your business.
                   </p>
                 </div>
-                <div className="md:w-1/2">
-                  <img src={visionImg} alt="Our Vision" className="w-full rounded-2xl border border-primary/30 shadow-lg shadow-primary/10" />
+                <div className="md:w-1/2 flex items-center justify-center">
+                  <img src={visionGif} alt="Our Vision" className="w-64 h-64 object-contain" />
                 </div>
               </div>
             </ScrollReveal>
