@@ -271,7 +271,7 @@ function HorizontalModuleScroll({ modules, onSelect }: { modules: ModuleInfo[]; 
           start: 'center center',
           pin: true,
           scrub: 1,
-          end: () => `+=${totalScrollWidth}`,
+          end: () => `+=${totalScrollWidth + 200}`,
           invalidateOnRefresh: true,
         },
       });
@@ -318,7 +318,8 @@ export default function Portfolio() {
 
       <div className="min-h-screen">
         {/* Hero */}
-        <section className="relative py-24 md:py-32 px-6 lg:px-8 border-b border-border">
+        <section className="relative py-24 md:py-32 px-6 lg:px-8 border-b border-border overflow-hidden">
+          <div className="absolute -top-20 -right-20 w-80 h-80 bg-primary/8 rounded-full blur-3xl pointer-events-none" />
           <div className="max-w-7xl mx-auto text-center space-y-6">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-light tracking-wide mb-4">Products & Services</h1>
@@ -416,7 +417,7 @@ export default function Portfolio() {
             <div className="grid md:grid-cols-3 gap-8">
               <ScrollReveal>
                 <div className="rounded-2xl border border-border bg-card overflow-hidden h-full transition-transform duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
-                  <ZoomableImage src={esgImg} alt="ESG" className="w-full object-contain" />
+                   <div className="overflow-hidden"><ZoomableImage src={esgImg} alt="ESG" className="w-full object-contain transition-transform duration-500 hover:scale-110" /></div>
                   <div className="p-8">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
                       <Leaf className="w-6 h-6 text-primary" />
@@ -431,7 +432,7 @@ export default function Portfolio() {
 
               <ScrollReveal delay={0.1}>
                 <div className="rounded-2xl border border-border bg-card overflow-hidden h-full transition-transform duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
-                  <ZoomableImage src={cybersecurityImg} alt="Cybersecurity Training" className="w-full object-contain" />
+                   <div className="overflow-hidden"><ZoomableImage src={cybersecurityImg} alt="Cybersecurity Training" className="w-full object-contain transition-transform duration-500 hover:scale-110" /></div>
                   <div className="p-8">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
                       <Shield className="w-6 h-6 text-primary" />
@@ -446,7 +447,7 @@ export default function Portfolio() {
 
               <ScrollReveal delay={0.2}>
                 <div className="rounded-2xl border border-border bg-card overflow-hidden h-full transition-transform duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
-                  <ZoomableImage src={afsImg} alt="Automated Financial Spreading" className="w-full object-contain" />
+                   <div className="overflow-hidden"><ZoomableImage src={afsImg} alt="Automated Financial Spreading" className="w-full object-contain transition-transform duration-500 hover:scale-110" /></div>
                   <div className="p-8">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
                       <FileSpreadsheet className="w-6 h-6 text-primary" />
