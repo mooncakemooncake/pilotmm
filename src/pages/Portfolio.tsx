@@ -44,43 +44,12 @@ interface ScorecardSub {
 
 /* ─── Data ─── */
 const cprsModules: ModuleInfo[] = [
-  {
-    key: 'obligor',
-    title: 'Obligor Information',
-    description: "Captures relevant information of the bank's client, able to be integrated with other software such as the bank's Loan Origination System ('LOS').",
-    media: obligorImg,
-  },
-  {
-    key: 'finanalytics',
-    title: 'FINAnalytics',
-    description: 'Highly configurable chart of accounts with financial projections, scenario simulation, stress testing, and automatic ratio calculations.',
-    media: finanalyticsImg,
-    extraMedia: projectionVideo,
-  },
-  {
-    key: 'scorecard',
-    title: 'Scorecard & Risk Rule',
-    description: 'Extremely flexible, configurable scorecard with quantitative, qualitative factors, external data, adjustments, and support modules.',
-    media: scorecardImg,
-  },
-  {
-    key: 'earlywarning',
-    title: 'Early Warning System',
-    description: "Collates the collective knowledge of the bank and converts it to rules to assist loan officers when analyzing financial statements.",
-    media: earlyWarningImg,
-  },
-  {
-    key: 'integration',
-    title: 'Integration Services',
-    description: 'Integrates with LOS, Enterprise Data Warehouse, Core Banking Systems, and other software in your organisation.',
-    media: integrationImg,
-  },
-  {
-    key: 'bi',
-    title: 'BI & Reporting',
-    description: 'Business intelligence software enabling comprehensive analyses through beautifully presented data. Discover powerful insights and turn them into impact.',
-    media: biImg,
-  },
+  { key: 'obligor', title: 'Obligor Information', description: "Captures relevant information of the bank's client, able to be integrated with other software such as the bank's Loan Origination System ('LOS').", media: obligorImg },
+  { key: 'finanalytics', title: 'FINAnalytics', description: 'Highly configurable chart of accounts with financial projections, scenario simulation, stress testing, and automatic ratio calculations.', media: finanalyticsImg, extraMedia: projectionVideo },
+  { key: 'scorecard', title: 'Scorecard & Risk Rule', description: 'Extremely flexible, configurable scorecard with quantitative, qualitative factors, external data, adjustments, and support modules.', media: scorecardImg },
+  { key: 'earlywarning', title: 'Early Warning System', description: "Collates the collective knowledge of the bank and converts it to rules to assist loan officers when analyzing financial statements.", media: earlyWarningImg },
+  { key: 'integration', title: 'Integration Services', description: 'Integrates with LOS, Enterprise Data Warehouse, Core Banking Systems, and other software in your organisation.', media: integrationImg },
+  { key: 'bi', title: 'BI & Reporting', description: 'Business intelligence software enabling comprehensive analyses through beautifully presented data. Discover powerful insights and turn them into impact.', media: biImg },
 ];
 
 const scorecardSubsections: ScorecardSub[] = [
@@ -93,12 +62,55 @@ const scorecardSubsections: ScorecardSub[] = [
   { title: "Portfolio Stress Testing", description: "Assess portfolio resilience under what-if scenarios. Stress test by industry, business unit, team, or country.", images: [stressTestingImg] },
 ];
 
+/* ─── Image Lightbox ─── */
+function ImageLightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm cursor-pointer"
+      onClick={onClose}
+    >
+      <motion.img
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.8, opacity: 0 }}
+        src={src}
+        alt={alt}
+        className="max-w-[90vw] max-h-[90vh] object-contain rounded-xl shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      />
+      <button onClick={onClose} className="absolute top-6 right-6 text-white/80 hover:text-white">
+        <X className="w-8 h-8" />
+      </button>
+    </motion.div>
+  );
+}
+
+/* ─── Clickable Image ─── */
+function ZoomableImage({ src, alt, className }: { src: string; alt: string; className?: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <img
+        src={src}
+        alt={alt}
+        className={`cursor-zoom-in hover:opacity-90 transition-opacity ${className || ''}`}
+        onClick={() => setOpen(true)}
+      />
+      <AnimatePresence>
+        {open && <ImageLightbox src={src} alt={alt} onClose={() => setOpen(false)} />}
+      </AnimatePresence>
+    </>
+  );
+}
+
 /* ─── Module Popup (non-scorecard) ─── */
 function ModulePopup({ module, onClose }: { module: ModuleInfo; onClose: () => void }) {
   const isScorecard = module.key === 'scorecard';
   if (isScorecard) return <ScorecardPanel onClose={onClose} />;
 
-  // Determine layout: alternate text-left/image-right vs image-left/text-right
   const isFinanalytics = module.key === 'finanalytics';
 
   return (
@@ -126,7 +138,6 @@ function ModulePopup({ module, onClose }: { module: ModuleInfo; onClose: () => v
         <div className="p-6 space-y-8">
           {isFinanalytics ? (
             <>
-              {/* Projection: text left, video right */}
               <div className="flex flex-col md:flex-row gap-6 items-start">
                 <div className="md:w-1/2 space-y-3">
                   <h4 className="text-lg font-semibold text-foreground">Projection Module</h4>
@@ -140,7 +151,6 @@ function ModulePopup({ module, onClose }: { module: ModuleInfo; onClose: () => v
                   )}
                 </div>
               </div>
-              {/* Historical: image left, text right */}
               <div className="flex flex-col md:flex-row-reverse gap-6 items-start">
                 <div className="md:w-1/2 space-y-3">
                   <h4 className="text-lg font-semibold text-foreground">Historical Module</h4>
@@ -150,20 +160,19 @@ function ModulePopup({ module, onClose }: { module: ModuleInfo; onClose: () => v
                 </div>
                 <div className="md:w-1/2">
                   {module.media && (
-                    <img src={module.media} alt="Historical Financial" className="w-full rounded-xl border border-border" />
+                    <ZoomableImage src={module.media} alt="Historical Financial" className="w-full rounded-xl border border-border" />
                   )}
                 </div>
               </div>
             </>
           ) : (
-            /* Default: text left, image right */
             <div className="flex flex-col md:flex-row gap-6 items-start">
               <div className="md:w-1/2">
                 <p className="text-muted-foreground leading-relaxed">{module.description}</p>
               </div>
               <div className="md:w-1/2">
                 {module.media && (
-                  <img src={module.media} alt={module.title} className="w-full rounded-xl border border-border" />
+                  <ZoomableImage src={module.media} alt={module.title} className="w-full rounded-xl border border-border" />
                 )}
               </div>
             </div>
@@ -174,7 +183,7 @@ function ModulePopup({ module, onClose }: { module: ModuleInfo; onClose: () => v
   );
 }
 
-/* ─── Scorecard Panel (Collapsible Left + Content Right) ─── */
+/* ─── Scorecard Panel ─── */
 function ScorecardPanel({ onClose }: { onClose: () => void }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const sub = scorecardSubsections[activeIndex];
@@ -208,9 +217,7 @@ function ScorecardPanel({ onClose }: { onClose: () => void }) {
                 key={i}
                 onClick={() => setActiveIndex(i)}
                 className={`w-full text-left px-5 py-4 text-sm font-medium transition-colors border-b border-border ${
-                  i === activeIndex
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-foreground hover:bg-accent'
+                  i === activeIndex ? 'bg-primary text-primary-foreground' : 'text-foreground hover:bg-accent'
                 }`}
               >
                 {s.title}
@@ -230,7 +237,7 @@ function ScorecardPanel({ onClose }: { onClose: () => void }) {
                 <h4 className="text-xl font-semibold text-foreground">{sub.title}</h4>
                 <p className="text-muted-foreground leading-relaxed">{sub.description}</p>
                 {sub.images.map((img, i) => (
-                  <img key={i} src={img} alt={sub.title} className="w-full rounded-xl border border-border shadow-sm" />
+                  <ZoomableImage key={i} src={img} alt={sub.title} className="w-full rounded-xl border border-border shadow-sm" />
                 ))}
               </motion.div>
             </AnimatePresence>
@@ -261,7 +268,7 @@ function HorizontalModuleScroll({ modules, onSelect }: { modules: ModuleInfo[]; 
         ease: 'none',
         scrollTrigger: {
           trigger: section,
-          start: 'top 80%',
+          start: 'center center',
           pin: true,
           scrub: 1,
           end: () => `+=${totalScrollWidth}`,
@@ -282,15 +289,14 @@ function HorizontalModuleScroll({ modules, onSelect }: { modules: ModuleInfo[]; 
             onClick={() => onSelect(m)}
             className="group shrink-0 w-[300px] md:w-[360px] h-[260px] rounded-2xl border border-border bg-dark-section text-dark-section-foreground relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-[1.03]"
           >
-            {/* Background preview image (visible on hover) */}
             {m.media && (
               <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300">
                 <img src={m.media} alt="" className="w-full h-full object-cover" />
               </div>
             )}
             <div className="relative z-10 flex flex-col items-start justify-between h-full p-6">
-              <span className="text-6xl font-black opacity-20 font-serif">{String(index + 1).padStart(2, '0')}</span>
-              <h4 className="text-xl md:text-2xl font-bold tracking-wide font-serif">{m.title}</h4>
+              <span className="text-7xl font-black opacity-20" style={{ fontFamily: 'Georgia, serif' }}>{String(index + 1).padStart(2, '0')}</span>
+              <h4 className="text-2xl md:text-3xl font-bold tracking-wide" style={{ fontFamily: 'Georgia, serif' }}>{m.title}</h4>
             </div>
           </button>
         ))}
@@ -371,7 +377,7 @@ export default function Portfolio() {
                   </p>
                 </div>
                 <div className="md:w-1/2">
-                  <img src={modelDevImg} alt="Model Development" className="w-full rounded-xl border border-white/10 shadow-sm" />
+                  <ZoomableImage src={modelDevImg} alt="Model Development" className="w-full rounded-xl border border-white/10 shadow-sm" />
                 </div>
               </div>
             </ScrollReveal>
@@ -391,7 +397,7 @@ export default function Portfolio() {
                   </div>
                 </div>
                 <div className="md:w-1/2">
-                  <img src={modelValImg} alt="Model Validation" className="w-full rounded-xl border border-white/10 shadow-sm" />
+                  <ZoomableImage src={modelValImg} alt="Model Validation" className="w-full rounded-xl border border-white/10 shadow-sm" />
                 </div>
               </div>
             </ScrollReveal>
@@ -410,7 +416,7 @@ export default function Portfolio() {
             <div className="grid md:grid-cols-3 gap-8">
               <ScrollReveal>
                 <div className="rounded-2xl border border-border bg-card overflow-hidden h-full transition-transform duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
-                  <img src={esgImg} alt="ESG" className="w-full object-contain" />
+                  <ZoomableImage src={esgImg} alt="ESG" className="w-full object-contain" />
                   <div className="p-8">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
                       <Leaf className="w-6 h-6 text-primary" />
@@ -425,7 +431,7 @@ export default function Portfolio() {
 
               <ScrollReveal delay={0.1}>
                 <div className="rounded-2xl border border-border bg-card overflow-hidden h-full transition-transform duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
-                  <img src={cybersecurityImg} alt="Cybersecurity Training" className="w-full object-contain" />
+                  <ZoomableImage src={cybersecurityImg} alt="Cybersecurity Training" className="w-full object-contain" />
                   <div className="p-8">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
                       <Shield className="w-6 h-6 text-primary" />
@@ -440,7 +446,7 @@ export default function Portfolio() {
 
               <ScrollReveal delay={0.2}>
                 <div className="rounded-2xl border border-border bg-card overflow-hidden h-full transition-transform duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
-                  <img src={afsImg} alt="Automated Financial Spreading" className="w-full object-contain" />
+                  <ZoomableImage src={afsImg} alt="Automated Financial Spreading" className="w-full object-contain" />
                   <div className="p-8">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
                       <FileSpreadsheet className="w-6 h-6 text-primary" />

@@ -11,8 +11,7 @@ export function Footer() {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <img src={logoPyramid} alt="Pilot Logo" className="w-8 h-8 object-contain" />
-              <span className="text-lg font-semibold tracking-wide text-foreground">PILOT MULTIMEDIA</span>
+              <img src={logoPyramid} alt="Pilot Multimedia" className="h-12 object-contain" />
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Empowering Financial Stability through Advanced Risk Management Solutions

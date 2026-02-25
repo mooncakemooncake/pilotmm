@@ -2,8 +2,7 @@ import { motion } from 'framer-motion';
 import { photographerInfo } from '@/data/photographer';
 import { ScrollIndicator } from '@/components/ui/ScrollIndicator';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { SEOHead } from '@/components/seo/SEOHead';
-import { ShieldCheck, Settings, Lock } from 'lucide-react';
+import { ShieldCheck, Settings, Lock, AlertTriangle, Lightbulb } from 'lucide-react';
 import heroVideo from '@/assets/hero-video.mp4';
 
 const benefits = [
@@ -27,11 +26,27 @@ const benefits = [
   },
 ];
 
+const challenges = [
+  {
+    icon: AlertTriangle,
+    title: 'Data & Tracking Issues',
+    description: 'Financial institutions struggle to keep track of data, ratings, and financials of their clients accurately.',
+  },
+  {
+    icon: Settings,
+    title: 'Module Modification',
+    description: 'Creating new scoring modules or making modifications to current ones presents significant challenges.',
+  },
+  {
+    icon: Lightbulb,
+    title: 'Our Solution',
+    description: "Credit Predix, Pilot's proprietary software, offers high customization, flexibility, and a robust DBMS for reliable credit risk management.",
+  },
+];
+
 export default function Home() {
   return (
     <>
-      <SEOHead />
-
       <div className="min-h-screen">
         {/* Hero Section */}
         <section className="relative h-screen w-full overflow-hidden">
@@ -61,7 +76,8 @@ export default function Home() {
               transition={{ duration: 1, ease: 'easeOut' }}
             >
               <motion.h1
-                className="text-5xl md:text-7xl lg:text-8xl font-extralight tracking-widest text-white"
+                className="text-5xl md:text-7xl lg:text-8xl font-black tracking-widest text-white"
+                style={{ WebkitTextStroke: '2px white', WebkitTextFillColor: 'transparent' }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.2 }}
@@ -99,53 +115,42 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Problem & Solution Section */}
+        {/* The Challenge Section - Visual Cards */}
         <section className="py-24 md:py-32 px-6 lg:px-8 bg-background">
-          <div className="max-w-5xl mx-auto space-y-16">
+          <div className="max-w-6xl mx-auto">
             <ScrollReveal>
-              <div className="text-center space-y-4">
+              <div className="text-center mb-16 space-y-4">
                 <h2 className="text-3xl md:text-4xl font-light tracking-wide text-foreground">
                   The Challenge
                 </h2>
-                <p className="text-lg font-light leading-relaxed text-muted-foreground max-w-3xl mx-auto">
-                  Financial institutions and companies that provide credit, both
-                  in financial and non-financial sectors, face the challenge of
-                  assessing and managing credit risk.
+                <p className="text-lg font-light text-muted-foreground max-w-2xl mx-auto">
+                  Financial institutions face the challenge of assessing and managing credit risk effectively.
                 </p>
               </div>
             </ScrollReveal>
 
-            <div className="grid md:grid-cols-2 gap-12">
-              <ScrollReveal delay={0.1}>
-                <div className="space-y-4 p-8 rounded-lg border border-border bg-card">
-                  <h3 className="text-xl font-medium text-foreground tracking-wide">
-                    Problem
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Credit Risk Assessment requires accuracy and reliability.
-                    Financial institutions face issues with keeping track of
-                    data, ratings (scorecards), and financials of their clients.
-                    Creating new scoring modules or making modifications to
-                    current modules presents another set of challenges unto
-                    itself.
-                  </p>
-                </div>
-              </ScrollReveal>
-
-              <ScrollReveal delay={0.2}>
-                <div className="space-y-4 p-8 rounded-lg border border-border bg-card">
-                  <h3 className="text-xl font-medium text-foreground tracking-wide">
-                    Solution
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    A Credit Risk Management Solution that allows high
-                    customization and flexibility and is equipped with a Database
-                    Management System to ensure reliability and accuracy of data.
-                    Credit Predix, Pilot's homegrown proprietary software,
-                    encompasses all those features and more.
-                  </p>
-                </div>
-              </ScrollReveal>
+            <div className="grid md:grid-cols-3 gap-8">
+              {challenges.map((item, index) => (
+                <ScrollReveal key={item.title} delay={index * 0.15}>
+                  <div className={`p-8 rounded-2xl h-full space-y-4 border transition-all duration-300 ${
+                    index === 2
+                      ? 'bg-primary/10 border-primary/30'
+                      : 'bg-card border-border'
+                  }`}>
+                    <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${
+                      index === 2 ? 'bg-primary/20' : 'bg-muted'
+                    }`}>
+                      <item.icon className={`w-7 h-7 ${index === 2 ? 'text-primary' : 'text-muted-foreground'}`} />
+                    </div>
+                    <h3 className="text-xl font-semibold text-foreground tracking-wide">
+                      {item.title}
+                    </h3>
+                    <p className="text-muted-foreground leading-relaxed text-sm">
+                      {item.description}
+                    </p>
+                  </div>
+                </ScrollReveal>
+              ))}
             </div>
           </div>
         </section>
@@ -164,7 +169,11 @@ export default function Home() {
             <div className="grid md:grid-cols-3 gap-8">
               {benefits.map((benefit, index) => (
                 <ScrollReveal key={benefit.title} delay={index * 0.15}>
-                  <div className="p-8 rounded-lg border border-white/10 bg-white/5 h-full space-y-4">
+                  <motion.div
+                    className="p-8 rounded-lg border border-white/10 bg-white/5 h-full space-y-4 cursor-pointer"
+                    whileHover={{ scale: 1.05, y: -8 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  >
                     <benefit.icon className="size-8 text-primary" />
                     <h3 className="text-lg font-medium tracking-wide">
                       {benefit.title}
@@ -172,7 +181,7 @@ export default function Home() {
                     <p className="text-white/70 leading-relaxed text-sm">
                       {benefit.description}
                     </p>
-                  </div>
+                  </motion.div>
                 </ScrollReveal>
               ))}
             </div>
