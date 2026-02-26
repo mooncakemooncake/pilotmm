@@ -8,21 +8,30 @@ import heroVideo from '@/assets/hero-video.mp4';
 const benefits = [
   {
     icon: ShieldCheck,
-    title: 'Accountability and Accuracy',
-    description:
-      'Credit Predix prioritizes accountability and accuracy with features like a Maker-Checker and Approver function for rigorous review and an Audit Trail that tracks all changes for complete transparency. These tools ensure precise, defensible decisions while fostering trust and reliability in credit risk management.',
+    title: 'Strategic Content & IP Provider',
+    headline: 'Beyond Software: Your Strategic Content Partner',
+    body:
+      'We differentiate ourselves by acting as a content provider rather than just a software vendor. We deliver essential intellectual property—including proprietary scorecards, data models, schemas, and methodologies—that makes a risk platform truly effective for your business.',
+    edge:
+      'No Black Boxes. Our models are developed with full transparency and comprehensive documentation, so your team owns and understands every dimension of your risk architecture.',
   },
   {
     icon: Settings,
-    title: 'Flexibility and Self-Autonomy',
-    description:
-      "The philosophy of Credit Predix is that it allows configuration of almost all aspects of the software. Rating models and financial templates are configurable by the users in minutes. Wide-ranging and complex models can be rapidly deployed by relationship managers and credit evaluators without external vendors' assistance. The essence of Credit Predix is customization and flexibility.",
+    title: 'Rapid Deployment & Self-Autonomy',
+    headline: 'Unrivaled Flexibility & Total Autonomy',
+    body:
+      'Our unified architecture allows your team to configure financial templates and deploy complex rating models in minutes without the need for constant external vendor assistance.',
+    edge:
+      'Highly Automated. We utilize proprietary software to automate model development and validation processes using R and Python scripts, ensuring seamless workflow integration and rapid knowledge transfer.',
   },
   {
     icon: Lock,
-    title: 'Data Security and Confidentiality',
-    description:
-      "PILOT's risk management solutions are built with security in mind, ensuring that sensitive financial and personal data used in credit assessments is protected. This adherence to data protection standards helps clients avoid regulatory breaches and maintain client confidentiality.",
+    title: 'Proven Expertise & Security',
+    headline: '30+ Years of Proven Industry Leadership',
+    body:
+      'Established in 1992, we offer a proven track record across Asia with deep expertise in commercial, SME, corporate, and retail portfolios. Our solutions are built with a security-first mindset to ensure regulatory compliance and absolute data confidentiality.',
+    edge:
+      'MSC Status Excellence. We have been recognized by the Multimedia Super Corridor (MSC) since 2002 for our excellence in technology development and innovation.',
   },
 ];
 
@@ -163,7 +172,7 @@ export default function Home() {
             <ScrollReveal>
               <div className="text-center mb-16 space-y-4">
                 <h2 className="text-3xl md:text-4xl font-light tracking-wide text-foreground">
-                  Why Choose PilotMultimedia?
+                  Why Choose Pilot Multimedia?
                 </h2>
               </div>
             </ScrollReveal>
@@ -172,17 +181,21 @@ export default function Home() {
               {benefits.map((benefit, index) => (
                 <ScrollReveal key={benefit.title} delay={index * 0.15}>
                   <motion.div
-                    className="p-8 rounded-lg border border-border bg-card h-full space-y-4 cursor-pointer shadow-sm"
-                    whileHover={{ scale: 1.05, y: -8 }}
+                    className="p-8 rounded-2xl border border-border bg-card h-full space-y-5 shadow-sm"
+                    whileHover={{ scale: 1.03, y: -10 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                   >
-                    <benefit.icon className="size-8 text-primary" />
-                    <h3 className="text-lg font-medium tracking-wide text-foreground">
-                      {benefit.title}
-                    </h3>
-                    <p className="text-muted-foreground leading-relaxed text-sm">
-                      {benefit.description}
-                    </p>
+                    <div className="flex items-center justify-between">
+                      <benefit.icon className="size-8 text-primary" />
+                      <span className="text-sm font-semibold text-muted-foreground">0{index + 1}</span>
+                    </div>
+                    <h3 className="text-lg font-semibold tracking-wide text-foreground">{benefit.title}</h3>
+                    <p className="text-xl font-medium text-foreground leading-snug">{benefit.headline}</p>
+                    <p className="text-muted-foreground leading-relaxed text-sm">{benefit.body}</p>
+                    <div className="pt-4 border-t border-border/60">
+                      <p className="text-sm font-semibold text-primary">The Edge</p>
+                      <p className="text-sm text-muted-foreground mt-1 leading-relaxed">{benefit.edge}</p>
+                    </div>
                   </motion.div>
                 </ScrollReveal>
               ))}

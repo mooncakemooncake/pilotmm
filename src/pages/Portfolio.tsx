@@ -260,18 +260,18 @@ function HorizontalModuleScroll({ modules, onSelect }: { modules: ModuleInfo[]; 
     const track = trackRef.current;
     if (!section || !track) return;
 
-    const totalScrollWidth = track.scrollWidth - window.innerWidth;
+    const getScrollDistance = () => Math.max(0, track.scrollWidth - section.clientWidth);
 
     const ctx = gsap.context(() => {
       gsap.to(track, {
-        x: -totalScrollWidth,
+        x: () => -getScrollDistance(),
         ease: 'none',
         scrollTrigger: {
           trigger: section,
           start: 'center center',
           pin: true,
           scrub: 1,
-          end: () => `+=${totalScrollWidth + 200}`,
+          end: () => `+=${getScrollDistance() + section.clientWidth * 0.5}`,
           invalidateOnRefresh: true,
         },
       });
@@ -362,6 +362,7 @@ export default function Portfolio() {
           <div className="max-w-7xl mx-auto">
             <ScrollReveal>
               <div className="text-center mb-16">
+                <p className="text-sm uppercase tracking-[0.25em] text-primary mb-3">The Tool that Powers the Strategy</p>
                 <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">Model Development & Validation</h2>
                 <p className="mt-4 text-lg text-white/60 max-w-3xl mx-auto">
                   Our software automates the processes of model development and validation, significantly reducing the time required while enhancing the reliability and accuracy of the models.
@@ -416,8 +417,8 @@ export default function Portfolio() {
 
             <div className="grid md:grid-cols-3 gap-8">
               <ScrollReveal>
-                <div className="rounded-2xl border border-border bg-card overflow-hidden h-full transition-transform duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
-                   <div className="overflow-hidden"><ZoomableImage src={esgImg} alt="ESG" className="w-full object-contain transition-transform duration-500 hover:scale-110" /></div>
+                <div className="rounded-2xl border border-border bg-card overflow-hidden h-full transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+                  <div className="overflow-hidden"><img src={esgImg} alt="ESG" className="w-full object-contain" loading="lazy" /></div>
                   <div className="p-8">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
                       <Leaf className="w-6 h-6 text-primary" />
@@ -431,8 +432,8 @@ export default function Portfolio() {
               </ScrollReveal>
 
               <ScrollReveal delay={0.1}>
-                <div className="rounded-2xl border border-border bg-card overflow-hidden h-full transition-transform duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
-                   <div className="overflow-hidden"><ZoomableImage src={cybersecurityImg} alt="Cybersecurity Training" className="w-full object-contain transition-transform duration-500 hover:scale-110" /></div>
+                <div className="rounded-2xl border border-border bg-card overflow-hidden h-full transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+                  <div className="overflow-hidden"><img src={cybersecurityImg} alt="Cybersecurity Training" className="w-full object-contain" loading="lazy" /></div>
                   <div className="p-8">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
                       <Shield className="w-6 h-6 text-primary" />
@@ -446,8 +447,8 @@ export default function Portfolio() {
               </ScrollReveal>
 
               <ScrollReveal delay={0.2}>
-                <div className="rounded-2xl border border-border bg-card overflow-hidden h-full transition-transform duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
-                   <div className="overflow-hidden"><ZoomableImage src={afsImg} alt="Automated Financial Spreading" className="w-full object-contain transition-transform duration-500 hover:scale-110" /></div>
+                <div className="rounded-2xl border border-border bg-card overflow-hidden h-full transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+                  <div className="overflow-hidden"><img src={afsImg} alt="Automated Financial Spreading" className="w-full object-contain" loading="lazy" /></div>
                   <div className="p-8">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-6">
                       <FileSpreadsheet className="w-6 h-6 text-primary" />
