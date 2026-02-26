@@ -1,11 +1,14 @@
 import { motion } from 'framer-motion';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { Eye, MapPin } from 'lucide-react';
+import { Eye, MapPin, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import visionGif from '@/assets/vision-lightbulb.gif';
 import petronasImg from '@/assets/petronas-towers.jpg';
 import merlionImg from '@/assets/merlion-park.jpg';
+import pilotOfficeImg from '@/assets/pilot-office-kl.jpg';
+import sgExpansionImg from '@/assets/pilot-singapore-expansion.jpg';
 
 
 import agrobankLogo from '@/assets/clients/agrobank.jpg';
@@ -115,6 +118,7 @@ function LocationCards() {
 
 export default function About() {
   const scrollClients = [...clients, ...clients];
+  const [showFullStory, setShowFullStory] = useState(false);
 
   return (
     <>
@@ -145,28 +149,90 @@ export default function About() {
           </div>
         </section>
 
-        {/* Company Introduction */}
+        {/* Our Story */}
         <section className="py-20 md:py-28 px-6 lg:px-8">
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             <ScrollReveal>
-              <div className="space-y-6 max-w-4xl">
+              <div className="space-y-6">
                 <div className="flex items-center gap-4 mb-2">
                   <div className="w-1 h-12 bg-primary rounded-full" />
                   <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">
                     Our Story
                   </h2>
                 </div>
-                <div className="text-muted-foreground leading-relaxed space-y-5 text-base md:text-lg">
-                  <p>
-                    Pilot Multimedia (M) Sdn Bhd was founded in 1992 in Malaysia and achieved Multimedia Supercorridor Status (MSC) in 2002 for the development of Risk Management Solutions.
-                  </p>
-                  <p>
-                    Pilot Multimedia Pte Ltd was established in Singapore in 2013 and has successfully implemented our Credit Scoring and Risk Management solutions across financial institutions, including OCBC Bank.
-                  </p>
-                  <p>
-                    Over the years, we have developed Risk Predix as a focused risk management platform for the financial services sector, while also supporting credit-driven industries beyond banking through our adaptable scoring methodologies.
-                  </p>
+                <h3 className="text-xl md:text-2xl font-semibold text-foreground leading-snug max-w-3xl">
+                  Thirty Years of Strategic Risk Management Excellence
+                </h3>
+                <p className="text-muted-foreground leading-relaxed text-base md:text-lg max-w-4xl">
+                  Established in 1992, PILOT has evolved through three decades of Asia's financial shifts, from securing MSC Status in 2002 to expanding its regional footprint into Singapore. Today, we provide the foundational intellectual property—including proprietary models and data schemas—that drives precise, transparent credit risk decisions for leading financial institutions like OCBC Bank.
+                </p>
+
+                {/* Read More Toggle */}
+                <div>
+                  <button
+                    onClick={() => setShowFullStory((v) => !v)}
+                    className="inline-flex items-center gap-2 text-primary font-medium hover:underline transition-colors"
+                  >
+                    {showFullStory ? 'Show less' : 'Read more'}
+                    <motion.span
+                      animate={{ rotate: showFullStory ? 180 : 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="inline-block"
+                    >
+                      <ChevronDown className="w-4 h-4" />
+                    </motion.span>
+                  </button>
                 </div>
+
+                <AnimatePresence>
+                  {showFullStory && (
+                    <motion.article
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="pt-6 space-y-8 border-t border-border">
+                        <h4 className="text-2xl md:text-3xl font-semibold text-foreground leading-tight">
+                          The Evolution of Pilot Multimedia: Building Trust in Credit Risk Since 1992
+                        </h4>
+
+                        <div className="space-y-6 text-muted-foreground leading-relaxed text-base md:text-lg">
+                          <p>
+                            Pilot Multimedia (M) Sdn Bhd (PILOT) is a premier Malaysian private limited company founded in 1992. With over three decades of proven expertise, PILOT has established a distinguished track record across Asia in commercial, SME, corporate, and retail portfolios.
+                          </p>
+
+                          <div className="rounded-xl overflow-hidden my-8">
+                            <img
+                              src={pilotOfficeImg}
+                              alt="PILOT office in Kuala Lumpur"
+                              className="w-full h-64 md:h-80 object-cover"
+                            />
+                            <p className="text-sm text-muted-foreground/70 mt-2 italic px-1">Our operations center in Kuala Lumpur, Malaysia</p>
+                          </div>
+
+                          <p>
+                            In 2002, the company achieved Multimedia Super Corridor (MSC) Status for its excellence in technology development and innovation in Risk Management Solutions. This status, recognized by the Malaysian government, reflects our long-standing commitment to R&D and financial technology leadership. Through this journey, PILOT developed its flagship homegrown Credit Scoring and Risk Management products, which have been successfully implemented across numerous financial institutions.
+                          </p>
+
+                          <div className="rounded-xl overflow-hidden my-8">
+                            <img
+                              src={sgExpansionImg}
+                              alt="Singapore financial district"
+                              className="w-full h-64 md:h-80 object-cover"
+                            />
+                            <p className="text-sm text-muted-foreground/70 mt-2 italic px-1">Expanding our footprint to Singapore's financial hub</p>
+                          </div>
+
+                          <p>
+                            Expanding our regional footprint, Pilot Multimedia Pte Ltd was incorporated in Singapore in 2013. Our solutions, including our specialized Risk Management product 'Risk Predix', have been successfully deployed in leading regional institutions such as OCBC Bank in Singapore. Today, our versatile credit scoring solutions also empower MNCs and wholesalers through 'Trade Credit' management for businesses operating on credit terms.
+                          </p>
+                        </div>
+                      </div>
+                    </motion.article>
+                  )}
+                </AnimatePresence>
               </div>
             </ScrollReveal>
           </div>
