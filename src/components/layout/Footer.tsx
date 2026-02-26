@@ -42,11 +42,11 @@ export function Footer() {
             <h4 className="text-sm font-semibold tracking-wide text-foreground uppercase">Contact</h4>
             <div className="text-sm text-muted-foreground space-y-3">
               <a
-                href="mailto:ADMINISTRATOR@PILOTMM.COM?cc=philip@pilotmm.com"
+                href="mailto:philip@pilotmm.com"
                 className="flex items-center gap-2 hover:text-foreground transition-colors"
               >
                 <Mail className="size-4 shrink-0" />
-                ADMINISTRATOR@PILOTMM.COM
+                philip@pilotmm.com
               </a>
               <div className="flex items-center gap-2">
                 <Phone className="size-4 shrink-0" />

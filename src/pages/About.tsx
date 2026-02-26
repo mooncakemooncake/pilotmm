@@ -85,10 +85,7 @@ function LocationCards() {
               animate={{ opacity: isHovered ? 0 : 1 }}
               transition={{ duration: 0.3 }}
             >
-              <h3
-                className="text-white text-2xl font-bold tracking-widest uppercase"
-                style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
-              >
+              <h3 className="text-white text-2xl font-bold tracking-widest uppercase text-center">
                 {loc.country}
               </h3>
             </motion.div>
@@ -152,32 +149,24 @@ export default function About() {
         <section className="py-20 md:py-28 px-6 lg:px-8">
           <div className="max-w-6xl mx-auto">
             <ScrollReveal>
-              <div className="space-y-6">
+              <div className="space-y-6 max-w-4xl">
                 <div className="flex items-center gap-4 mb-2">
                   <div className="w-1 h-12 bg-primary rounded-full" />
                   <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">
                     Our Story
                   </h2>
                 </div>
-                <div className="text-muted-foreground leading-relaxed space-y-5 text-base md:text-lg md:columns-2 md:gap-10">
+                <div className="text-muted-foreground leading-relaxed space-y-5 text-base md:text-lg">
                   <p>
-                    Pilot Multimedia Pte Ltd, a company incorporated in Singapore, was established in 2013. PILOT has developed a Credit Scoring Solution/Risk Management product which has been successfully implemented in a number of financial institutions; including OCBC Bank which is incorporated and domiciled in Singapore.
+                    Pilot Multimedia (M) Sdn Bhd was founded in 1992 in Malaysia and achieved Multimedia Supercorridor Status (MSC) in 2002 for the development of Risk Management Solutions.
                   </p>
                   <p>
-                    Pilot Singapore is also related to Pilot Multimedia (M) Sdn Bhd (PILOT), which is a Malaysian private limited company. PILOT was founded in the year 1992 and has achieved Multimedia Supercorridor Status (MSC) in 2002 for the development of Risk Management Solutions.
+                    Pilot Multimedia Pte Ltd was established in Singapore in 2013 and has successfully implemented our Credit Scoring and Risk Management solutions across financial institutions, including OCBC Bank.
+                  </p>
+                  <p>
+                    Over the years, we have developed Risk Predix as a focused risk management platform for the financial services sector, while also supporting credit-driven industries beyond banking through our adaptable scoring methodologies.
                   </p>
                 </div>
-              </div>
-            </ScrollReveal>
-
-            <ScrollReveal delay={0.1}>
-              <div className="mt-10 text-muted-foreground leading-relaxed space-y-5 text-base max-w-4xl">
-                <p>
-                  This status accords PILOT tax-free status for 10 years, and the Malaysian government also actively provides support to MSC companies in terms of R&D, marketing, and other financial incentives.
-                </p>
-                <p>
-                  In the process, PILOT has developed a Credit Scoring Solution/Risk Management product that has been successfully implemented in a number of financial institutions. 'Risk Predix' is our specific Risk Management product for the Financial Services sector. Our homegrown credit scoring solution also allows expansion into non-financial institution industries, as 'Trade Credit' is also provided by large MNCs and wholesalers that sell on credit terms.
-                </p>
               </div>
             </ScrollReveal>
           </div>
@@ -253,8 +242,8 @@ export default function About() {
           <div className="max-w-5xl mx-auto">
             <ScrollReveal>
               <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">
-                  We are located at
+                  <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">
+                    We are located in
                 </h2>
               </div>
             </ScrollReveal>
