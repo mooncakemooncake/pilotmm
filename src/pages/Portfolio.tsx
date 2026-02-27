@@ -379,13 +379,61 @@ export default function Portfolio() {
         </section>
 
         {/* The Tool that Powers the Strategy */}
-        <section className="py-20 md:py-28 px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto text-center">
-            <ScrollReveal>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground leading-tight">
-                The Tool that Powers<br />the Strategy
+        <section className="py-28 md:py-40 px-6 lg:px-8 relative overflow-hidden">
+          {/* Animated background glow */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 1.2 }}
+            viewport={{ once: true }}
+          >
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px]" />
+            <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-[300px] h-[300px] bg-primary/5 rounded-full blur-[80px]" />
+          </motion.div>
+
+          <div className="max-w-7xl mx-auto text-center relative z-10">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, margin: "-100px" }}
+            >
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: "6rem" }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                viewport={{ once: true }}
+                className="h-0.5 bg-primary mx-auto mb-8"
+              />
+              <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-tight">
+                <motion.span
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="block"
+                >
+                  The Tool that Powers
+                </motion.span>
+                <motion.span
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  viewport={{ once: true }}
+                  className="block bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent"
+                >
+                  the Strategy
+                </motion.span>
               </h2>
-            </ScrollReveal>
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: "6rem" }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                viewport={{ once: true }}
+                className="h-0.5 bg-primary mx-auto mt-8"
+              />
+            </motion.div>
           </div>
         </section>
 

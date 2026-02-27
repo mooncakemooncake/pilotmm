@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronRight } from 'lucide-react';
 import pilotOfficeImg from '@/assets/pilot-office-kl.jpg';
 
 export default function OurStory() {
@@ -13,8 +13,23 @@ export default function OurStory() {
       />
 
       <div className="min-h-screen">
+        {/* Breadcrumb */}
+        <nav aria-label="Breadcrumb" className="px-6 lg:px-8 pt-8">
+          <ol className="max-w-3xl mx-auto flex items-center gap-2 text-sm text-muted-foreground">
+            <li>
+              <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
+            </li>
+            <li><ChevronRight className="w-3.5 h-3.5" /></li>
+            <li>
+              <Link to="/about" className="hover:text-foreground transition-colors">About</Link>
+            </li>
+            <li><ChevronRight className="w-3.5 h-3.5" /></li>
+            <li className="text-foreground font-medium">Our Story</li>
+          </ol>
+        </nav>
+
         {/* Article Header */}
-        <section className="py-24 md:py-32 px-6 lg:px-8 border-b border-border">
+        <section className="py-16 md:py-24 px-6 lg:px-8 border-b border-border">
           <div className="max-w-3xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
