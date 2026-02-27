@@ -53,12 +53,12 @@ export function Footer() {
                 <span>+60-3-2201-6219 | +60-1-9332-2315</span>
               </div>
               <a
-                href="https://mail.google.com/mail/u/0/?fs=1&to=ADMINISTRATOR@PILOTMM.COM&tf=cm&cc=philip@pilotmm.com"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=ADMINISTRATOR@PILOTMM.COM&tf=1&cc=philip@pilotmm.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 hover:text-foreground transition-colors"
+                className="inline-flex items-center gap-2 mt-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 transition-colors shadow-md"
               >
-                <ExternalLink className="size-4 shrink-0" />
+                <Mail className="size-4 shrink-0" />
                 Contact Us
               </a>
             </div>
