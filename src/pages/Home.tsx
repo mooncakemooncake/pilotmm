@@ -84,8 +84,8 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: 'easeOut' }}
             >
-              <motion.h1
-                className="text-5xl md:text-7xl lg:text-8xl tracking-widest text-white"
+               <motion.h1
+                className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl tracking-widest text-white"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.2 }}
@@ -185,16 +185,27 @@ export default function Home() {
                     whileHover={{ scale: 1.03, y: -10 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                   >
-                    <div className="flex items-center justify-between">
-                      <benefit.icon className="size-8 text-primary" />
-                      <span className="text-sm font-semibold text-muted-foreground">0{index + 1}</span>
+    {/* Number badge */}
+                    <div className="flex items-start gap-4 mb-4">
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                        <benefit.icon className="size-6 text-primary" />
+                      </div>
+                      <span className="text-5xl font-black text-primary/15 leading-none">0{index + 1}</span>
                     </div>
-                    <h3 className="text-lg font-semibold tracking-wide text-foreground">{benefit.title}</h3>
-                    <p className="text-xl font-medium text-foreground leading-snug">{benefit.headline}</p>
-                    <p className="text-muted-foreground leading-relaxed text-sm">{benefit.body}</p>
-                    <div className="pt-4 border-t border-border/60">
-                      <p className="text-sm font-semibold text-primary">The Edge</p>
-                      <p className="text-sm text-muted-foreground mt-1 leading-relaxed">{benefit.edge}</p>
+
+                    {/* Title */}
+                    <h3 className="text-base font-bold uppercase tracking-wider text-primary mb-2">{benefit.title}</h3>
+                    
+                    {/* Headline */}
+                    <p className="text-lg font-semibold text-foreground leading-snug mb-3">{benefit.headline}</p>
+                    
+                    {/* Body */}
+                    <p className="text-muted-foreground leading-relaxed text-sm mb-5">{benefit.body}</p>
+                    
+                    {/* Edge - visually distinct */}
+                    <div className="rounded-lg bg-primary/5 border border-primary/10 p-4">
+                      <p className="text-xs font-bold uppercase tracking-wider text-primary mb-1.5">✦ The Edge</p>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{benefit.edge}</p>
                     </div>
                   </motion.div>
                 </ScrollReveal>

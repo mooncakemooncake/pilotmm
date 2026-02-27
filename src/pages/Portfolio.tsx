@@ -1,7 +1,7 @@
 import { SEOHead } from '@/components/seo/SEOHead';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
+
 import { Leaf, Shield, FileSpreadsheet, X } from 'lucide-react';
 import { useState, useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
@@ -383,7 +383,7 @@ export default function Portfolio() {
           <div className="absolute -top-20 -right-20 w-80 h-80 bg-primary/8 rounded-full blur-3xl pointer-events-none" />
           <div className="max-w-7xl mx-auto text-center space-y-6">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-light tracking-wide mb-4">Products & Services</h1>
+              <h1 className="text-5xl md:text-6xl lg:text-7xl tracking-wide mb-4" style={{ fontFamily: 'Georgia, serif', fontWeight: 300 }}>Products <span className="italic text-primary">&</span> Services</h1>
               <p className="text-lg md:text-xl text-muted-foreground font-light tracking-wide max-w-2xl mx-auto">
                 Comprehensive credit risk management solutions tailored for financial institutions
               </p>
@@ -391,78 +391,96 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* Key Statistics */}
-        <section className="py-16 md:py-20 px-6 lg:px-8 bg-background">
-          <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-            <AnimatedCounter end={30} suffix="+" label="Years of Experience" />
-            <AnimatedCounter end={1992} label="Year Founded" />
-            <AnimatedCounter end={50} suffix="+" label="Financial Institutions" />
-            <AnimatedCounter end={15} suffix="+" label="Countries Served" />
-          </div>
-        </section>
 
         {/* Model Development & Validation */}
         <ModelDevSection />
 
         
 
-        {/* The Tool that Powers the Strategy */}
-        <section className="py-28 md:py-40 px-6 lg:px-8 relative overflow-hidden bg-secondary/20">
+        {/* The Tool that Powers the Strategy — dramatic transition */}
+        <section className="relative overflow-hidden bg-dark-section text-dark-section-foreground">
+          {/* Top fade from previous section */}
+          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-dark-section to-transparent z-10 pointer-events-none" />
+
           {/* Animated background glow */}
           <motion.div
             className="absolute inset-0 pointer-events-none"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            transition={{ duration: 1.2 }}
+            transition={{ duration: 2 }}
             viewport={{ once: true }}
           >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px]" />
-            <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-[300px] h-[300px] bg-primary/5 rounded-full blur-[80px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/15 rounded-full blur-[150px]" />
+            <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] bg-primary/8 rounded-full blur-[100px]" />
+            <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] bg-primary/5 rounded-full blur-[80px]" />
           </motion.div>
 
-          <div className="max-w-7xl mx-auto text-center relative z-10">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              viewport={{ once: true, margin: "-100px" }}
-            >
+          <div className="relative z-10 py-40 md:py-56 px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto text-center">
+              {/* Staggered reveal */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                className="text-sm uppercase tracking-[0.3em] text-primary font-semibold mb-8"
+              >
+                Introducing
+              </motion.p>
+
               <motion.div
-                initial={{ width: 0 }}
-                whileInView={{ width: "6rem" }}
-                transition={{ duration: 0.6, delay: 0.3 }}
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
                 viewport={{ once: true }}
-                className="h-0.5 bg-primary mx-auto mb-8"
+                className="h-px bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mb-12 max-w-md"
               />
-              <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-tight">
-                <motion.span
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
+
+              <div className="overflow-hidden">
+                <motion.h2
+                  initial={{ y: '100%' }}
+                  whileInView={{ y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   viewport={{ once: true }}
-                  className="block"
+                  className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-none mb-4"
                 >
                   The Tool that Powers
-                </motion.span>
-                <motion.span
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
+                </motion.h2>
+              </div>
+              <div className="overflow-hidden">
+                <motion.h2
+                  initial={{ y: '100%' }}
+                  whileInView={{ y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
                   viewport={{ once: true }}
-                  className="block bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent"
+                  className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-none bg-gradient-to-r from-primary via-primary/80 to-primary/50 bg-clip-text text-transparent"
                 >
                   the Strategy
-                </motion.span>
-              </h2>
+                </motion.h2>
+              </div>
+
               <motion.div
-                initial={{ width: 0 }}
-                whileInView={{ width: "6rem" }}
-                transition={{ duration: 0.6, delay: 0.6 }}
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                transition={{ duration: 1, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 viewport={{ once: true }}
-                className="h-0.5 bg-primary mx-auto mt-8"
+                className="h-px bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mt-12 max-w-md"
               />
-            </motion.div>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 1.2 }}
+                viewport={{ once: true }}
+                className="mt-10 text-lg text-dark-section-foreground/50 max-w-xl mx-auto"
+              >
+                From model to platform — meet Credit Predix
+              </motion.p>
+            </div>
           </div>
+
+          {/* Bottom fade into next section */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-10 pointer-events-none" />
         </section>
 
         {/* CPRS Section */}

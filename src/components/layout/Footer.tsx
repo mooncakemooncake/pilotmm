@@ -56,9 +56,13 @@ export function Footer() {
                 href="https://mail.google.com/mail/?view=cm&fs=1&to=ADMINISTRATOR@PILOTMM.COM&tf=1&cc=philip@pilotmm.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 mt-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 transition-colors shadow-md"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.open('https://mail.google.com/mail/?view=cm&fs=1&to=ADMINISTRATOR@PILOTMM.COM&tf=1&cc=philip@pilotmm.com', '_blank', 'noopener,noreferrer');
+                }}
+                className="inline-flex items-center gap-2 mt-3 px-6 py-3 rounded-xl bg-primary text-primary-foreground font-bold text-base hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl hover:scale-105"
               >
-                <Mail className="size-4 shrink-0" />
+                <Mail className="size-5 shrink-0" />
                 Contact Us
               </a>
             </div>
