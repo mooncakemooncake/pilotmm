@@ -1,6 +1,7 @@
 import { SEOHead } from '@/components/seo/SEOHead';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
 import { Leaf, Shield, FileSpreadsheet, X } from 'lucide-react';
 import { useState, useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
@@ -387,6 +388,16 @@ export default function Portfolio() {
                 Comprehensive credit risk management solutions tailored for financial institutions
               </p>
             </motion.div>
+          </div>
+        </section>
+
+        {/* Key Statistics */}
+        <section className="py-16 md:py-20 px-6 lg:px-8 bg-background">
+          <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+            <AnimatedCounter end={30} suffix="+" label="Years of Experience" />
+            <AnimatedCounter end={1992} label="Year Founded" />
+            <AnimatedCounter end={50} suffix="+" label="Financial Institutions" />
+            <AnimatedCounter end={15} suffix="+" label="Countries Served" />
           </div>
         </section>
 
