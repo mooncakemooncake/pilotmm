@@ -17,6 +17,7 @@ const Index = lazy(() => import("./pages/Index"));
 const Portfolio = lazy(() => import("./pages/Portfolio"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
 const About = lazy(() => import("./pages/About"));
+const OurStory = lazy(() => import("./pages/OurStory"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -56,6 +57,14 @@ function AnimatedRoutes() {
           element={
             <PageTransition>
               <About />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/our-story"
+          element={
+            <PageTransition>
+              <OurStory />
             </PageTransition>
           }
         />
