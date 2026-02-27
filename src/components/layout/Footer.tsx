@@ -1,4 +1,4 @@
-import { Mail, Phone } from 'lucide-react';
+import { Mail, Phone, ExternalLink } from 'lucide-react';
 import logoPyramid from '@/assets/logo-pyramid.png';
 
 export function Footer() {
@@ -52,6 +52,15 @@ export function Footer() {
                 <Phone className="size-4 shrink-0" />
                 <span>+60-3-2201-6219 | +60-1-9332-2315</span>
               </div>
+              <a
+                href="https://mail.google.com/mail/u/0/?fs=1&to=ADMINISTRATOR@PILOTMM.COM&tf=cm&cc=philip@pilotmm.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 hover:text-foreground transition-colors"
+              >
+                <ExternalLink className="size-4 shrink-0" />
+                Contact Us
+              </a>
             </div>
           </div>
         </div>

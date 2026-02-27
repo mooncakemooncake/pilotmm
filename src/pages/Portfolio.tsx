@@ -1,5 +1,5 @@
 import { SEOHead } from '@/components/seo/SEOHead';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Leaf, Shield, FileSpreadsheet, X } from 'lucide-react';
 import { useState, useRef, useLayoutEffect } from 'react';
@@ -305,6 +305,66 @@ function HorizontalModuleScroll({ modules, onSelect }: { modules: ModuleInfo[]; 
   );
 }
 
+/* ─── Model Development with Parallax ─── */
+function ModelDevSection() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+  const imgY1 = useTransform(scrollYProgress, [0, 1], [40, -40]);
+  const imgY2 = useTransform(scrollYProgress, [0, 1], [60, -60]);
+
+  return (
+    <section ref={sectionRef} className="py-20 md:py-28 px-6 lg:px-8 bg-dark-section text-dark-section-foreground">
+      <div className="max-w-7xl mx-auto">
+        <ScrollReveal>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">Model Development & Validation</h2>
+            <p className="mt-4 text-lg text-dark-section-foreground/60 max-w-3xl mx-auto">
+              Our software automates the processes of model development and validation, significantly reducing the time required while enhancing the reliability and accuracy of the models.
+            </p>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal>
+          <div className="flex flex-col md:flex-row items-center gap-10 mb-20">
+            <div className="md:w-1/2">
+              <h3 className="text-2xl font-semibold mb-4">Model Development</h3>
+              <p className="text-dark-section-foreground/70 leading-relaxed">
+                Our model development service offers a statistical approach with a supplement of a judgmental approach to develop a state-of-the-art credit risk model that accurately rates the risk of a client. Our software automates the process of model development. The pipeline ensures a swift and seamless cycle from development to deployment.
+              </p>
+            </div>
+            <motion.div className="md:w-1/2" style={{ y: imgY1 }}>
+              <ZoomableImage src={modelDevImg} alt="Model Development" className="w-full rounded-xl border border-dark-section-foreground/10 shadow-lg" />
+            </motion.div>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal>
+          <div className="flex flex-col md:flex-row-reverse items-center gap-10">
+            <div className="md:w-1/2">
+              <h3 className="text-2xl font-semibold mb-4">Model Validation</h3>
+              <div className="text-dark-section-foreground/70 leading-relaxed space-y-3">
+                <p className="font-medium text-dark-section-foreground">Features of Model Validation:</p>
+                <ul className="space-y-2 list-disc pl-5">
+                  <li><strong>Model Validation Process</strong> — Ensures models are methodologically robust, compliant with regulations set by the Basel Committee on Banking Supervision (BCBS), and aligned with internal standards.</li>
+                  <li><strong>Monitoring Framework</strong> — Guarantees reliability of models through effective monitoring.</li>
+                  <li><strong>Benchmarking</strong> — Compares your models against industry best practices.</li>
+                  <li><strong>Validation Report</strong> — Provides an independent and detailed evaluation of your models. Highlights strengths and weaknesses. Assesses model suitability for your business environment. Recommends actionable steps for improvement.</li>
+                </ul>
+              </div>
+            </div>
+            <motion.div className="md:w-1/2" style={{ y: imgY2 }}>
+              <ZoomableImage src={modelValImg} alt="Model Validation" className="w-full rounded-xl border border-dark-section-foreground/10 shadow-lg" />
+            </motion.div>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}
+
 /* ─── Main Page ─── */
 export default function Portfolio() {
   const [selectedModule, setSelectedModule] = useState<ModuleInfo | null>(null);
@@ -318,7 +378,7 @@ export default function Portfolio() {
 
       <div className="min-h-screen">
         {/* Hero */}
-        <section className="relative py-24 md:py-32 px-6 lg:px-8 border-b border-border overflow-hidden">
+        <section className="relative py-24 md:py-32 px-6 lg:px-8 overflow-hidden bg-secondary/30">
           <div className="absolute -top-20 -right-20 w-80 h-80 bg-primary/8 rounded-full blur-3xl pointer-events-none" />
           <div className="max-w-7xl mx-auto text-center space-y-6">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
@@ -331,55 +391,12 @@ export default function Portfolio() {
         </section>
 
         {/* Model Development & Validation */}
-        <section className="py-20 md:py-28 px-6 lg:px-8 bg-dark-section text-dark-section-foreground">
-          <div className="max-w-7xl mx-auto">
-            <ScrollReveal>
-              <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">Model Development & Validation</h2>
-                <p className="mt-4 text-lg text-white/60 max-w-3xl mx-auto">
-                  Our software automates the processes of model development and validation, significantly reducing the time required while enhancing the reliability and accuracy of the models.
-                </p>
-              </div>
-            </ScrollReveal>
+        <ModelDevSection />
 
-            <ScrollReveal>
-              <div className="flex flex-col md:flex-row items-center gap-10 mb-20">
-                <div className="md:w-1/2">
-                  <h3 className="text-2xl font-semibold mb-4">Model Development</h3>
-                  <p className="text-white/70 leading-relaxed">
-                    Our model development service offers a statistical approach with a supplement of a judgmental approach to develop a state-of-the-art credit risk model that accurately rates the risk of a client. Our software automates the process of model development. The pipeline ensures a swift and seamless cycle from development to deployment.
-                  </p>
-                </div>
-                <div className="md:w-1/2">
-                  <ZoomableImage src={modelDevImg} alt="Model Development" className="w-full rounded-xl border border-white/10 shadow-sm" />
-                </div>
-              </div>
-            </ScrollReveal>
-
-            <ScrollReveal>
-              <div className="flex flex-col md:flex-row-reverse items-center gap-10">
-                <div className="md:w-1/2">
-                  <h3 className="text-2xl font-semibold mb-4">Model Validation</h3>
-                  <div className="text-white/70 leading-relaxed space-y-3">
-                    <p className="font-medium text-white">Features of Model Validation:</p>
-                    <ul className="space-y-2 list-disc pl-5">
-                      <li><strong>Model Validation Process</strong> — Ensures models are methodologically robust, compliant with regulations set by the Basel Committee on Banking Supervision (BCBS), and aligned with internal standards.</li>
-                      <li><strong>Monitoring Framework</strong> — Guarantees reliability of models through effective monitoring.</li>
-                      <li><strong>Benchmarking</strong> — Compares your models against industry best practices.</li>
-                      <li><strong>Validation Report</strong> — Provides an independent and detailed evaluation of your models. Highlights strengths and weaknesses. Assesses model suitability for your business environment. Recommends actionable steps for improvement.</li>
-                    </ul>
-                  </div>
-                </div>
-                <div className="md:w-1/2">
-                  <ZoomableImage src={modelValImg} alt="Model Validation" className="w-full rounded-xl border border-white/10 shadow-sm" />
-                </div>
-              </div>
-            </ScrollReveal>
-          </div>
-        </section>
+        
 
         {/* The Tool that Powers the Strategy */}
-        <section className="py-28 md:py-40 px-6 lg:px-8 relative overflow-hidden">
+        <section className="py-28 md:py-40 px-6 lg:px-8 relative overflow-hidden bg-secondary/20">
           {/* Animated background glow */}
           <motion.div
             className="absolute inset-0 pointer-events-none"
@@ -438,7 +455,7 @@ export default function Portfolio() {
         </section>
 
         {/* CPRS Section */}
-        <section className="py-16 md:py-20 px-6 lg:px-8">
+        <section className="py-16 md:py-20 px-6 lg:px-8 bg-background">
           <div className="max-w-7xl mx-auto">
             <ScrollReveal>
               <div className="mb-10">
@@ -465,7 +482,7 @@ export default function Portfolio() {
         </AnimatePresence>
 
         {/* Additional Services */}
-        <section className="py-20 md:py-28 px-6 lg:px-8">
+        <section className="py-20 md:py-28 px-6 lg:px-8 bg-secondary/30">
           <div className="max-w-7xl mx-auto">
             <ScrollReveal>
               <div className="text-center mb-16">
