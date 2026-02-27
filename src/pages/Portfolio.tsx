@@ -330,39 +330,11 @@ export default function Portfolio() {
           </div>
         </section>
 
-        {/* CPRS Section */}
-        <section className="py-16 md:py-20 px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <ScrollReveal>
-              <div className="mb-10">
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-foreground leading-tight">
-                  Credit Predix —<br />
-                  <span className="text-muted-foreground font-light">
-                    Equipping you with the<br />
-                    best tools for<br />
-                    credit risk evaluation.
-                  </span>
-                </h2>
-              </div>
-            </ScrollReveal>
-
-            <HorizontalModuleScroll modules={cprsModules} onSelect={setSelectedModule} />
-          </div>
-        </section>
-
-        {/* Module Popup */}
-        <AnimatePresence>
-          {selectedModule && (
-            <ModulePopup module={selectedModule} onClose={() => setSelectedModule(null)} />
-          )}
-        </AnimatePresence>
-
         {/* Model Development & Validation */}
         <section className="py-20 md:py-28 px-6 lg:px-8 bg-dark-section text-dark-section-foreground">
           <div className="max-w-7xl mx-auto">
             <ScrollReveal>
               <div className="text-center mb-16">
-                <p className="text-sm uppercase tracking-[0.25em] text-primary mb-3">The Tool that Powers the Strategy</p>
                 <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">Model Development & Validation</h2>
                 <p className="mt-4 text-lg text-white/60 max-w-3xl mx-auto">
                   Our software automates the processes of model development and validation, significantly reducing the time required while enhancing the reliability and accuracy of the models.
@@ -405,6 +377,44 @@ export default function Portfolio() {
             </ScrollReveal>
           </div>
         </section>
+
+        {/* The Tool that Powers the Strategy */}
+        <section className="py-20 md:py-28 px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto text-center">
+            <ScrollReveal>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground leading-tight">
+                The Tool that Powers<br />the Strategy
+              </h2>
+            </ScrollReveal>
+          </div>
+        </section>
+
+        {/* CPRS Section */}
+        <section className="py-16 md:py-20 px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <ScrollReveal>
+              <div className="mb-10">
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-foreground leading-tight">
+                  Credit Predix —<br />
+                  <span className="text-muted-foreground font-light">
+                    Equipping you with the<br />
+                    best tools for<br />
+                    credit risk evaluation.
+                  </span>
+                </h2>
+              </div>
+            </ScrollReveal>
+
+            <HorizontalModuleScroll modules={cprsModules} onSelect={setSelectedModule} />
+          </div>
+        </section>
+
+        {/* Module Popup */}
+        <AnimatePresence>
+          {selectedModule && (
+            <ModulePopup module={selectedModule} onClose={() => setSelectedModule(null)} />
+          )}
+        </AnimatePresence>
 
         {/* Additional Services */}
         <section className="py-20 md:py-28 px-6 lg:px-8">
