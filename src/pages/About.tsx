@@ -1,8 +1,9 @@
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { Eye, MapPin, ArrowRight } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
 import { Link } from 'react-router-dom';
 import visionGif from '@/assets/vision-lightbulb.gif';
 import petronasImg from '@/assets/petronas-towers.jpg';
@@ -125,12 +126,12 @@ export default function About() {
       />
 
       <div className="min-h-screen">
-        {/* Hero */}
+        {/* Hero with 1992 counter */}
         <section className="py-24 md:py-32 px-6 lg:px-8 border-b border-border relative overflow-hidden">
           {/* Purple accent blob */}
           <div className="absolute -top-32 -right-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
-          <div className="max-w-4xl mx-auto text-center space-y-6 relative">
+          <div className="max-w-4xl mx-auto text-center space-y-8 relative">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -139,7 +140,17 @@ export default function About() {
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-light tracking-wide mb-4">
                 About Us
               </h1>
-              <p className="text-lg md:text-xl text-muted-foreground font-light tracking-wide">
+            </motion.div>
+
+            {/* Animated 1992 Founded counter */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="pt-4"
+            >
+              <AnimatedCounter end={1992} label="Founded" duration={2000} />
+              <p className="text-base text-muted-foreground font-light tracking-wide mt-4">
                 Empowering Financial Stability since 1992
               </p>
             </motion.div>
