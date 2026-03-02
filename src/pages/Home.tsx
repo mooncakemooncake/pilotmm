@@ -2,36 +2,30 @@ import { motion } from 'framer-motion';
 import { photographerInfo } from '@/data/photographer';
 import { ScrollIndicator } from '@/components/ui/ScrollIndicator';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { ShieldCheck, Settings, Lock, AlertTriangle, Lightbulb } from 'lucide-react';
+import { ShieldCheck, Settings, Lock, AlertTriangle, Lightbulb, Zap, Award } from 'lucide-react';
 import heroVideo from '@/assets/hero-video.mp4';
 
 const benefits = [
   {
     icon: ShieldCheck,
     title: 'Strategic Content & IP Provider',
-    headline: 'Beyond Software: Your Strategic Content Partner',
-    body:
-      'We differentiate ourselves by acting as a content provider rather than just a software vendor. We deliver essential intellectual property—including proprietary scorecards, data models, schemas, and methodologies—that makes a risk platform truly effective for your business.',
-    edge:
-      'No Black Boxes. Our models are developed with full transparency and comprehensive documentation, so your team owns and understands every dimension of your risk architecture.',
+    subtitle: 'Beyond Software: Your Strategic Content Partner',
+    body: 'We differentiate ourselves by acting as a \'content\' provider, delivering the essential intellectual property—including proprietary scorecards, data models, and methodologies—that make a risk platform truly effective.',
+    edge: '\'No Black Boxes.\' Models are developed with 100% transparency and full documentation, ensuring you own and understand every dimension of your risk architecture.',
   },
   {
-    icon: Settings,
+    icon: Zap,
     title: 'Rapid Deployment & Self-Autonomy',
-    headline: 'Unrivaled Flexibility & Total Autonomy',
-    body:
-      'Our unified architecture allows your team to configure financial templates and deploy complex rating models in minutes without the need for constant external vendor assistance.',
-    edge:
-      'Highly Automated. We utilize proprietary software to automate model development and validation processes using R and Python scripts, ensuring seamless workflow integration and rapid knowledge transfer.',
+    subtitle: 'Unrivaled Flexibility & Total Autonomy',
+    body: 'Our unified architecture allows your team to configure financial templates and deploy complex rating models in minutes without constant external vendor assistance.',
+    edge: '\'Highly Automated.\' We utilize proprietary software to automate model development and validation using R and Python scripts, ensuring rapid knowledge transfer.',
   },
   {
-    icon: Lock,
-    title: 'Proven Expertise & Security',
-    headline: '30+ Years of Proven Industry Leadership',
-    body:
-      'Established in 1992, we offer a proven track record across Asia with deep expertise in commercial, SME, corporate, and retail portfolios. Our solutions are built with a security-first mindset to ensure regulatory compliance and absolute data confidentiality.',
-    edge:
-      'MSC Status Excellence. We have been recognized by the Multimedia Super Corridor (MSC) since 2002 for our excellence in technology development and innovation.',
+    icon: Award,
+    title: '30+ Years of Proven Industry Leadership',
+    subtitle: 'Proven Expertise Since 1992',
+    body: 'Established in 1992, we offer a proven track record across Asia with deep expertise in commercial, SME, and retail portfolios. Our solutions are built with institutional-grade security to maintain absolute data confidentiality.',
+    edge: '\'MSC Status Excellence.\' Recognized by the Multimedia Super Corridor (MSC) since 2002 for excellence in technology innovation.',
   },
 ];
 
@@ -164,48 +158,51 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Benefits Section */}
-        <section className="py-24 md:py-32 px-6 lg:px-8 bg-background relative overflow-hidden">
-          {/* Purple accent */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-          <div className="max-w-6xl mx-auto relative">
+        {/* Why Choose Pilot Multimedia - Premium Fintech Section */}
+        <section className="py-28 md:py-36 px-6 lg:px-8 bg-background relative overflow-hidden">
+          {/* Decorative background elements */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/[0.03] rounded-full blur-[120px] pointer-events-none" />
+          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-primary/[0.02] rounded-full blur-[80px] pointer-events-none" />
+
+          <div className="max-w-7xl mx-auto relative">
             <ScrollReveal>
-              <div className="text-center mb-16 space-y-4">
-                <h2 className="text-3xl md:text-4xl font-light tracking-wide text-foreground">
+              <div className="text-center mb-20 space-y-3">
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Our Advantage</p>
+                <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground">
                   Why Choose Pilot Multimedia?
                 </h2>
+                <div className="w-16 h-1 bg-primary mx-auto mt-4 rounded-full" />
               </div>
             </ScrollReveal>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-10">
               {benefits.map((benefit, index) => (
                 <ScrollReveal key={benefit.title} delay={index * 0.15}>
                   <motion.div
-                    className="p-8 rounded-2xl border border-border bg-card h-full space-y-5 shadow-sm"
-                    whileHover={{ scale: 1.03, y: -10 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                    className="group p-10 rounded-2xl border border-border/60 bg-card h-full flex flex-col shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2"
+                    whileHover={{ scale: 1.01 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                   >
-    {/* Number badge */}
-                    <div className="flex items-start gap-4 mb-4">
-                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                        <benefit.icon className="size-6 text-primary" />
-                      </div>
-                      <span className="text-5xl font-black text-primary/15 leading-none">0{index + 1}</span>
+                    {/* Icon with gradient background */}
+                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-6 group-hover:from-primary/30 group-hover:to-primary/10 transition-all duration-500">
+                      <benefit.icon className="size-7 text-primary" />
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-base font-bold uppercase tracking-wider text-primary mb-2">{benefit.title}</h3>
-                    
-                    {/* Headline */}
-                    <p className="text-lg font-semibold text-foreground leading-snug mb-3">{benefit.headline}</p>
-                    
+                    <h3 className="text-lg font-bold text-primary mb-2 tracking-wide">{benefit.title}</h3>
+
+                    {/* Subtitle */}
+                    <p className="text-base font-semibold text-foreground leading-snug mb-4">{benefit.subtitle}</p>
+
                     {/* Body */}
-                    <p className="text-muted-foreground leading-relaxed text-sm mb-5">{benefit.body}</p>
-                    
-                    {/* Edge - visually distinct */}
-                    <div className="rounded-lg bg-primary/5 border border-primary/10 p-4">
-                      <p className="text-xs font-bold uppercase tracking-wider text-primary mb-1.5">✦ The Edge</p>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{benefit.edge}</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-8 flex-1">{benefit.body}</p>
+
+                    {/* The Edge - distinct bottom section */}
+                    <div className="border-t border-primary/15 pt-5 mt-auto">
+                      <div className="rounded-xl bg-primary/[0.04] border border-primary/10 p-5">
+                        <p className="text-xs font-bold uppercase tracking-[0.15em] text-primary mb-2">✦ The Edge</p>
+                        <p className="text-sm text-muted-foreground leading-relaxed">{benefit.edge}</p>
+                      </div>
                     </div>
                   </motion.div>
                 </ScrollReveal>
