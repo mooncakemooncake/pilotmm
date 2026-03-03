@@ -18,18 +18,8 @@ export function Layout({ children }: LayoutProps) {
   const isHomepage = location.pathname === '/';
 
   useEffect(() => {
-    if (location.hash) {
-      setTimeout(() => {
-        const el = document.getElementById(location.hash.slice(1));
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          return;
-        }
-      }, 300);
-    } else {
-      window.scrollTo(0, 0);
-    }
-  }, [location.pathname, location.hash]);
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
