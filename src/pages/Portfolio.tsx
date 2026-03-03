@@ -317,7 +317,7 @@ function ModelDevSection() {
   const imgY2 = useTransform(scrollYProgress, [0, 1], [60, -60]);
 
   return (
-    <section ref={sectionRef} className="py-20 md:py-28 px-6 lg:px-8 bg-dark-section text-dark-section-foreground">
+    <section id="model-dev" ref={sectionRef} className="py-20 md:py-28 px-6 lg:px-8 bg-dark-section text-dark-section-foreground scroll-mt-20">
       <div className="max-w-7xl mx-auto">
         <ScrollReveal>
           <div className="text-center mb-16">
@@ -484,7 +484,7 @@ export default function Portfolio() {
         </section>
 
         {/* CPRS Section */}
-        <section className="py-16 md:py-20 px-6 lg:px-8 bg-background">
+        <section id="cprs" className="py-16 md:py-20 px-6 lg:px-8 bg-background scroll-mt-20">
           <div className="max-w-7xl mx-auto">
             <ScrollReveal>
               <div className="mb-10">
@@ -511,7 +511,7 @@ export default function Portfolio() {
         </AnimatePresence>
 
         {/* Additional Services */}
-        <section className="py-20 md:py-28 px-6 lg:px-8 bg-secondary/30">
+        <section id="additional-services" className="py-20 md:py-28 px-6 lg:px-8 bg-secondary/30 scroll-mt-20">
           <div className="max-w-7xl mx-auto">
             <ScrollReveal>
               <div className="text-center mb-16">
