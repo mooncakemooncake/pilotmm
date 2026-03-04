@@ -396,7 +396,7 @@ function ModelDevSection() {
                 <ul className="space-y-2 list-disc pl-5">
                   <li><strong>Model Validation Process</strong> — Ensures models are methodologically robust, compliant with regulations set by the Basel Committee on Banking Supervision (BCBS), and aligned with internal standards.</li>
                   <li><strong>Monitoring Framework</strong> — Guarantees reliability of models through effective monitoring.</li>
-                  <li><strong>Benchmarking</strong> — Compares your models against industry best practices.</li>
+                  <li><strong>Regulatory & Benchmarking Compliance</strong> — Ensures alignment with global regulatory frameworks, specifically <span className="font-bold text-primary">IFRS 9</span> and <span className="font-bold text-primary">Basel II/III</span> standards, to provide methodologically robust and auditable risk assessments.</li>
                   <li><strong>Validation Report</strong> — Provides an independent and detailed evaluation of your models. Highlights strengths and weaknesses. Assesses model suitability for your business environment. Recommends actionable steps for improvement.</li>
                 </ul>
               </div>

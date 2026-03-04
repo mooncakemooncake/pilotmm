@@ -23,16 +23,16 @@ export function Footer() {
             <h4 className="text-sm font-semibold tracking-wide text-foreground uppercase">Offices</h4>
             <div className="text-sm text-muted-foreground leading-relaxed space-y-4">
               <div>
-                <p className="font-medium text-foreground">PILOT MULTIMEDIA PTE. LTD.</p>
-                <p>160 Robinson Road</p>
-                <p>#10-09 SBF Center</p>
-                <p>Singapore (068914)</p>
-              </div>
-              <div>
                 <p className="font-medium text-foreground">PILOT MULTIMEDIA (M) SDN BHD (582627-V)</p>
                 <p>A-29-2 Menara UOA Bangsar,</p>
                 <p>No.5, Jalan Bangsar Utama 1,</p>
                 <p>59000 Kuala Lumpur, Malaysia</p>
+              </div>
+              <div>
+                <p className="font-medium text-foreground">PILOT MULTIMEDIA PTE. LTD.</p>
+                <p>160 Robinson Road</p>
+                <p>#10-09 SBF Center</p>
+                <p>Singapore (068914)</p>
               </div>
             </div>
           </div>
