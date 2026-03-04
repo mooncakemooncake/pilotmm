@@ -214,7 +214,13 @@ export default function About() {
                   </p>
                 </div>
                 <div className="md:w-1/2 flex items-center justify-center">
-                  <img src={visionImg} alt="Our Vision" className="w-80 h-80 object-contain drop-shadow-lg" />
+                  <motion.img
+                    src={visionImg}
+                    alt="Our Vision"
+                    className="w-80 h-80 object-contain drop-shadow-lg"
+                    animate={{ y: [0, -12, 0] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  />
                 </div>
               </div>
             </ScrollReveal>

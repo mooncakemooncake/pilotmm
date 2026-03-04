@@ -381,7 +381,7 @@ function ModelDevSection() {
                 Our model development service offers a statistical approach with a supplement of a judgmental approach to develop a state-of-the-art credit risk model that accurately rates the risk of a client. Our software automates the process of model development. The pipeline ensures a swift and seamless cycle from development to deployment.
               </p>
             </div>
-            <motion.div className="md:w-1/2" style={{ y: imgY1 }}>
+            <motion.div className="md:w-1/2 relative z-10" style={{ y: imgY1 }}>
               <ZoomableImage src={modelDevImg} alt="Model Development" className="w-full rounded-xl border border-dark-section-foreground/10 shadow-lg" />
             </motion.div>
           </div>
@@ -401,7 +401,7 @@ function ModelDevSection() {
                 </ul>
               </div>
             </div>
-            <motion.div className="md:w-1/2" style={{ y: imgY2 }}>
+            <motion.div className="md:w-1/2 relative z-10" style={{ y: imgY2 }}>
               <ZoomableImage src={modelValImg} alt="Model Validation" className="w-full rounded-xl border border-dark-section-foreground/10 shadow-lg" />
             </motion.div>
           </div>
