@@ -107,6 +107,51 @@ function ZoomableImage({ src, alt, className }: { src: string; alt: string; clas
   );
 }
 
+/* ─── Zoomable Video ─── */
+function ZoomableVideo({ src, className }: { src: string; className?: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <video
+        src={src}
+        autoPlay
+        loop
+        muted
+        playsInline
+        className={`cursor-zoom-in hover:opacity-90 transition-opacity ${className || ''}`}
+        onClick={() => setOpen(true)}
+      />
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm cursor-pointer"
+            onClick={() => setOpen(false)}
+          >
+            <motion.video
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              src={src}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="max-w-[90vw] max-h-[90vh] object-contain rounded-xl shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            />
+            <button onClick={() => setOpen(false)} className="absolute top-6 right-6 text-white/80 hover:text-white">
+              <X className="w-8 h-8" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
 /* ─── Module Popup (non-scorecard) ─── */
 function ModulePopup({ module, onClose }: { module: ModuleInfo; onClose: () => void }) {
   const isScorecard = module.key === 'scorecard';
@@ -148,7 +193,7 @@ function ModulePopup({ module, onClose }: { module: ModuleInfo; onClose: () => v
                 </div>
                 <div className="md:w-1/2">
                   {module.extraMedia && (
-                    <video src={module.extraMedia} autoPlay loop muted playsInline className="w-full rounded-xl border border-border" />
+                    <ZoomableVideo src={module.extraMedia} className="w-full rounded-xl border border-border" />
                   )}
                 </div>
               </div>
