@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Tailwind Plus templates (reference only, not part of the app)
+tailwind-plus/

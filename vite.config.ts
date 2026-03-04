@@ -8,17 +8,15 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 3000,
+    watch: {
+      // Exclude large non-app directories from file watching
+      ignored: ["**/tailwind-plus/**", "**/node_modules/**"],
+    },
   },
   plugins: [tailwindcss(), react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-    },
-  },
-  build: {
-    // Exclude tailwind-plus examples from the build
-    rollupOptions: {
-      external: [],
     },
   },
 }));
