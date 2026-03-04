@@ -5,7 +5,7 @@ import { Eye, MapPin, ArrowRight } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
 import { Link } from 'react-router-dom';
-import visionGif from '@/assets/vision-lightbulb.gif';
+import visionImg from '@/assets/vision-logo.png';
 import petronasImg from '@/assets/petronas-towers.jpg';
 import merlionImg from '@/assets/merlion-park.jpg';
 
@@ -214,7 +214,7 @@ export default function About() {
                   </p>
                 </div>
                 <div className="md:w-1/2 flex items-center justify-center">
-                  <img src={visionGif} alt="Our Vision" className="w-64 h-64 object-contain" />
+                  <img src={visionImg} alt="Our Vision" className="w-72 h-72 object-contain" />
                 </div>
               </div>
             </ScrollReveal>
