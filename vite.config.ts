@@ -10,7 +10,6 @@ export default defineConfig(({ mode }) => ({
     port: 3000,
     allowedHosts: "all",
     watch: {
-      // Exclude large non-app directories from file watching
       ignored: ["**/tailwind-plus/**", "**/node_modules/**"],
     },
   },
@@ -19,5 +18,10 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+  // Exclude tailwind-plus from dependency optimization scanning
+  optimizeDeps: {
+    exclude: [],
+    entries: ["src/main.tsx"],
   },
 }));
