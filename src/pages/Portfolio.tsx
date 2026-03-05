@@ -4,6 +4,7 @@ import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 import { Leaf, Shield, FileSpreadsheet, X } from 'lucide-react';
 import { useState, useRef, useLayoutEffect } from 'react';
+import { createPortal } from 'react-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -70,7 +71,7 @@ function ImageLightbox({ src, alt, onClose }: { src: string; alt: string; onClos
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-foreground/40 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-foreground/40 backdrop-blur-sm p-2 md:p-4"
       onClick={onClose}
     >
       <motion.div
@@ -78,7 +79,7 @@ function ImageLightbox({ src, alt, onClose }: { src: string; alt: string; onClos
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 40, opacity: 0 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="bg-card rounded-2xl border border-border shadow-xl w-[95vw] h-[95vh] flex flex-col overflow-hidden"
+        className="bg-card md:rounded-2xl border border-border shadow-xl w-full h-full md:w-[95vw] md:h-[95vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between p-4 border-b border-border shrink-0">
@@ -110,9 +111,12 @@ function ZoomableImage({ src, alt, className }: { src: string; alt: string; clas
         className={`cursor-zoom-in hover:opacity-90 transition-opacity ${className || ''}`}
         onClick={() => setOpen(true)}
       />
-      <AnimatePresence>
-        {open && <ImageLightbox src={src} alt={alt} onClose={() => setOpen(false)} />}
-      </AnimatePresence>
+      {open && createPortal(
+        <AnimatePresence>
+          <ImageLightbox src={src} alt={alt} onClose={() => setOpen(false)} />
+        </AnimatePresence>,
+        document.body
+      )}
     </>
   );
 }
