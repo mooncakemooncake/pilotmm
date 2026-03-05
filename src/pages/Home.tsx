@@ -135,10 +135,10 @@ export default function Home() {
             <div className="grid md:grid-cols-3 gap-8">
               {challenges.map((item, index) => (
                 <ScrollReveal key={item.title} delay={index * 0.15}>
-                  <div className={`p-8 rounded-2xl h-full space-y-4 border transition-all duration-300 ${
+                  <div className={`p-8 rounded-2xl h-full space-y-4 border transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/10 cursor-default ${
                     index === 2
-                      ? 'bg-primary/20 border-primary/40'
-                      : 'bg-white/5 border-white/10'
+                      ? 'bg-primary/20 border-primary/40 hover:bg-primary/25 hover:border-primary/60'
+                      : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
                   }`}>
                     <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${
                       index === 2 ? 'bg-primary/30' : 'bg-white/10'
