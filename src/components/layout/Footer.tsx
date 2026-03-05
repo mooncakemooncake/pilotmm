@@ -72,7 +72,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-border mt-10 pt-6">
           <p className="text-xs text-muted-foreground text-center">
-            © {currentYear} Pilot Multimedia Pte Ltd. All rights reserved.
+            Copyright ©2026 Pilot Multimedia. All rights Reserved
           </p>
         </div>
       </div>
