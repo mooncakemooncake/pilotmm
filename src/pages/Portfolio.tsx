@@ -63,28 +63,38 @@ const scorecardSubsections: ScorecardSub[] = [
   { title: "Portfolio Stress Testing", description: "Assess portfolio resilience under what-if scenarios. Stress test by industry, business unit, team, or country.", images: [stressTestingImg] },
 ];
 
-/* ─── Image Lightbox ─── */
+/* ─── Image Lightbox (popup window style) ─── */
 function ImageLightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm cursor-pointer"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-foreground/40 backdrop-blur-sm p-4"
       onClick={onClose}
     >
-      <motion.img
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
-        src={src}
-        alt={alt}
-        className="max-w-[90vw] max-h-[90vh] object-contain rounded-xl shadow-2xl"
+      <motion.div
+        initial={{ y: 40, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 40, opacity: 0 }}
+        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+        className="bg-card rounded-2xl border border-border shadow-xl max-w-5xl w-full max-h-[85vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
-      />
-      <button onClick={onClose} className="absolute top-6 right-6 text-white/80 hover:text-white">
-        <X className="w-8 h-8" />
-      </button>
+      >
+        <div className="flex items-center justify-between p-4 border-b border-border">
+          <h3 className="text-lg font-semibold text-foreground">{alt}</h3>
+          <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent transition-colors">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        <div className="p-6 flex items-center justify-center">
+          <img
+            src={src}
+            alt={alt}
+            className="max-w-full max-h-[70vh] object-contain rounded-xl"
+          />
+        </div>
+      </motion.div>
     </motion.div>
   );
 }
