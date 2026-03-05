@@ -78,20 +78,20 @@ function ImageLightbox({ src, alt, onClose }: { src: string; alt: string; onClos
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 40, opacity: 0 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="bg-card rounded-2xl border border-border shadow-xl max-w-5xl w-full max-h-[85vh] overflow-y-auto"
+        className="bg-card rounded-2xl border border-border shadow-xl w-[95vw] h-[95vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between p-4 border-b border-border">
+        <div className="flex items-center justify-between p-4 border-b border-border shrink-0">
           <h3 className="text-lg font-semibold text-foreground">{alt}</h3>
           <button onClick={onClose} className="p-2 rounded-lg hover:bg-accent transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
-        <div className="p-6 flex items-center justify-center">
+        <div className="flex-1 p-6 flex items-center justify-center overflow-auto">
           <img
             src={src}
             alt={alt}
-            className="max-w-full max-h-[70vh] object-contain rounded-xl"
+            className="max-w-full max-h-full object-contain rounded-xl"
           />
         </div>
       </motion.div>
